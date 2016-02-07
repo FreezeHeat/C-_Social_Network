@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SocialNetwork
+{
+    interface ICustomizeForm
+    {
+        void changeColors(Color text, Color bg); // בחירת הצבעים
+        Color[] yourColors(); // קביעת הצבעים בכל התחברות
+    }
+}
