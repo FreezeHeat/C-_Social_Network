@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3A5A1774-0B80-4CF1-AB62-EDCE27E26AA2}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SocialNetwork</RootNamespace>
+    <AssemblyName>SocialNetwork</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite, Version=1.0.99.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Core.1.0.99.0\lib\net45\System.Data.SQLite.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.SQLite.EF6, Version=1.0.99.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.99.0\lib\net45\System.Data.SQLite.EF6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.99.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.99.0\lib\net45\System.Data.SQLite.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="formAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formAccount.Designer.cs">
+      <DependentUpon>formAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="formAdmin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formAdmin.Designer.cs">
+      <DependentUpon>formAdmin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="formChangeDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formChangeDetails.Designer.cs">
+      <DependentUpon>formChangeDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="formChangeDetailsTechSupport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formChangeDetailsTechSupport.Designer.cs">
+      <DependentUpon>formChangeDetailsTechSupport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="formChangeDetailsUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formChangeDetailsUser.Designer.cs">
+      <DependentUpon>formChangeDetailsUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="formCustomizeWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formCustomizeWindow.Designer.cs">
+      <DependentUpon>formCustomizeWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="formDisabled.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formDisabled.Designer.cs">
+      <DependentUpon>formDisabled.cs</DependentUpon>
+    </Compile>
+    <Compile Include="formManageUsers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formManageUsers.designer.cs">
+      <DependentUpon>formManageUsers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="formSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formSettings.Designer.cs">
+      <DependentUpon>formSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="formSettingsTechSupport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formSettingsTechSupport.Designer.cs">
+      <DependentUpon>formSettingsTechSupport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="formSettingsUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formSettingsUser.Designer.cs">
+      <DependentUpon>formSettingsUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="formSignUp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formSignUp.Designer.cs">
+      <DependentUpon>formSignUp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="formTechSupport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formTechSupport.designer.cs">
+      <DependentUpon>formTechSupport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="formUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formUser.Designer.cs">
+      <DependentUpon>formUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\Account.cs" />
+    <Compile Include="source\Admin.cs" />
+    <Compile Include="source\Caretaker.cs" />
+    <Compile Include="source\CmdColors.cs" />
+    <Compile Include="source\Database.cs" />
+    <Compile Include="formLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formLogin.Designer.cs">
+      <DependentUpon>formLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Home.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Home.Designer.cs">
+      <DependentUpon>Home.cs</DependentUpon>
+    </Compile>
+    <Compile Include="formSendTicket.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formSendTicket.Designer.cs">
+      <DependentUpon>formSendTicket.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\IBackup.cs" />
+    <Compile Include="source\ICustomizeForm.cs" />
+    <Compile Include="source\IDisableAcc.cs" />
+    <Compile Include="source\Inbox.cs" />
+    <Compile Include="source\LogMain.cs" />
+    <Compile Include="source\Memento.cs" />
+    <Compile Include="source\Message.cs" />
+    <Compile Include="source\Playlist.cs" />
+    <Compile Include="source\Post.cs" />
+    <Compile Include="source\PostList.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="utils\StringChecks.cs" />
+    <Compile Include="source\TechSupport.cs" />
+    <Compile Include="source\Ticket.cs" />
+    <Compile Include="source\TicketBox.cs" />
+    <Compile Include="source\User.cs" />
+    <EmbeddedResource Include="formAccount.resx">
+      <DependentUpon>formAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formAdmin.resx">
+      <DependentUpon>formAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formChangeDetails.resx">
+      <DependentUpon>formChangeDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formChangeDetailsTechSupport.resx">
+      <DependentUpon>formChangeDetailsTechSupport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formChangeDetailsUser.resx">
+      <DependentUpon>formChangeDetailsUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formCustomizeWindow.resx">
+      <DependentUpon>formCustomizeWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formDisabled.resx">
+      <DependentUpon>formDisabled.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formManageUsers.resx">
+      <DependentUpon>formManageUsers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formSettings.resx">
+      <DependentUpon>formSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formSettingsUser.resx">
+      <DependentUpon>formSettingsUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formSignUp.resx">
+      <DependentUpon>formSignUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formTechSupport.resx">
+      <DependentUpon>formTechSupport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formUser.resx">
+      <DependentUpon>formUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formLogin.resx">
+      <DependentUpon>formLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Home.resx">
+      <DependentUpon>Home.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formSendTicket.resx">
+      <DependentUpon>formSendTicket.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\System.Data.SQLite.Core.1.0.99.0\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.99.0\build\net45\System.Data.SQLite.Core.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.99.0\build\net45\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.99.0\build\net45\System.Data.SQLite.Core.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
