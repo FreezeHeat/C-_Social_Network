@@ -9,6 +9,7 @@ namespace SocialNetwork
     sealed class Message
     {
         //private String recipient; // המשתמש שמקבל את הודעה
+        private int id; // מספר סידורי של ההודעה
         private String sender; // המשתמש ששולח את ההודעה
         private String mail; // ההודעה עצמה
         private DateTime date; // זמן הודעה
@@ -16,8 +17,18 @@ namespace SocialNetwork
         
 
         // בנאים ומתודות כלליות
+        public Message(int id, String sender, String mail)
+        {
+            this.id = id;
+            Sender = sender;
+            //Recipient = recipient;
+            Mail = mail;
+            this.date = DateTime.Now;
+        }
+
         public Message(String sender, String mail)
         {
+          
             Sender = sender;
             //Recipient = recipient;
             Mail = mail;
@@ -43,6 +54,11 @@ namespace SocialNetwork
         //    get { return this.recipient; }
         //    set { this.recipient = value; }
         //}
+
+        public int ID
+        {
+            get { return this.id; }
+        }
 
         public String Sender
         {

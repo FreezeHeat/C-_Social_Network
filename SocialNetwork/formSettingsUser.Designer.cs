@@ -69,7 +69,7 @@
             this.btnBackupPosts.TabIndex = 3;
             this.btnBackupPosts.Text = "Backup Posts";
             this.btnBackupPosts.UseVisualStyleBackColor = true;
-            this.btnBackupPosts.Click += new System.EventHandler(this.btnBackupPosts_Click);
+            //this.btnBackupPosts.Click += new System.EventHandler(this.btnBackupPosts_Click);
             // 
             // btnRestorePosts
             // 
@@ -80,7 +80,7 @@
             this.btnRestorePosts.TabIndex = 4;
             this.btnRestorePosts.Text = "Restore Posts";
             this.btnRestorePosts.UseVisualStyleBackColor = true;
-            this.btnRestorePosts.Click += new System.EventHandler(this.btnRestorePosts_Click);
+            //this.btnRestorePosts.Click += new System.EventHandler(this.btnRestorePosts_Click);
             // 
             // formSettingsUser
             // 
