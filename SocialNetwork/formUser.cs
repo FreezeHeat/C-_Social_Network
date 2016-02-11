@@ -32,8 +32,8 @@ namespace SocialNetwork
                 this.ForeColor = user.Text;
                 this.BackColor = user.BG;
             }
-            this.posts = user.posts.Posts;
-            this.yourPostLocation = user.posts.Posts.Count - 1; // תמיד מהמקום האחרון
+            this.posts = database.getAllPosts(user.Username);
+            this.yourPostLocation = this.posts.Count - 1;
             this.parent = parent;
         }
 
@@ -56,25 +56,24 @@ namespace SocialNetwork
 
             foreach (Message msg in messages)
             {
-                string[] message = new string[] { msg.Sender, msg.Mail, msg.Date };
+                string[] message = new string[] { msg.ID.ToString(), msg.Sender, msg.Mail, msg.Date };
                 this.gridInbox.Rows.Add(message);
             }
         }
 
         protected override void btnSend_Click(object sender, EventArgs e) // שליחת הודעה
         {
-            int i;
 
-            i = database.Accounts.FindIndex(x => x.Username.Equals(txtRecipient.Text));
-            if (i >= 0) // נמצא משתמש
+
+            if (database.checkIfUserExists(txtRecipient.Text) == true)
             {
-                database.Accounts[i].inbox.getMessage(user.Username, txtSend.Text);
-                MessageBox.Show("Sent succesfully!");
+                Message msg = new Message(user.Username, txtSend.Text);
+                database.AddMessage(msg, txtRecipient.Text);
+                MessageBox.Show("Sent successfully!");
             }
             else
             {
-                MessageBox.Show("No match found...");
-                txtRecipient.Text = "Recipient's Username";
+                MessageBox.Show("Wrong username...");
             }
         }
 
@@ -158,6 +157,7 @@ namespace SocialNetwork
                 if (DialogResult == DialogResult.OK)
                 {
                     Post post = new Post(user.Username, txtPost.Text);
+                    database.AddPost(post);
                     posts.Add(post);
                     this.yourPosts = true;
                     this.yourPostLocation++;
@@ -165,6 +165,7 @@ namespace SocialNetwork
                     txtPost.Leave -= TxtPost_Leave;
                     txtPost.ReadOnly = true;
                 }
+
                 else
                 {
                     txtPost.Leave -= TxtPost_Leave;
@@ -242,13 +243,19 @@ namespace SocialNetwork
 
         private void btnGetPost_Click(object sender, EventArgs e)
         {
-            int i = database.Accounts.FindIndex(x => x.Username.Equals(this.txtTargetUsername.Text));
+            if (database.checkIfUserExists(this.txtTargetUsername.Text) == true) // שקיים המשתמש
+            {
+                if (database.checkPermission(this.txtTargetUsername.Text) != null) // בדיקת רשות
+                {
+
+                }
+            }
 
             if(i >= 0 && database.Accounts[i].Permission == 0) // גישה למשתמש שקיים במערכת
             {
                 this.yourPosts = false;
                 User target = (User)database.Accounts[i];
-                this.targetPosts = target.posts.Posts; // שמור את הרשימה של המשתמש האחר
+                this.targetPosts = database.getAllPosts(target.Username); // שמור את הרשימה של המשתמש האחר
                 this.elsePostLocation = this.targetPosts.Count - 1;
 
                 if (this.elsePostLocation >= 0) { this.refreshPost(); }
@@ -354,7 +361,8 @@ namespace SocialNetwork
 
                     if (result == DialogResult.Yes)
                     {
-                        this.user.inbox.InboxList.RemoveAt(gridInbox.CurrentRow.Index);
+                        int index = Int32.Parse(gridInbox.Rows[gridInbox.CurrentRow.Index].Cells["ID"].Value.ToString());
+                        database.DeleteMessage(index);
                         gridInbox.Rows.Remove(gridInbox.Rows[gridInbox.CurrentRow.Index]);
                         MessageBox.Show("Deleted Succesfully!");
                         this.gridInbox.Refresh();

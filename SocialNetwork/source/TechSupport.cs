@@ -45,7 +45,7 @@ namespace SocialNetwork
         //}
         
 
-        public String checkAccess(String username)
+        public String checkAccess(String username)//check it out
         {
             int i = -1;
             i = database.Accounts.FindIndex(account => account.Username == username);
@@ -60,7 +60,7 @@ namespace SocialNetwork
             return "Cannot access this user";
         }
 
-        public String getUserDetails(String username)
+        public String getUserDetails(String username)//check it out
         {
             String check = checkAccess(username);
             if(check != null) { return check; }
@@ -69,15 +69,9 @@ namespace SocialNetwork
             return user.ToString();
         }
 
-        public String changeUserDetails(String username, String fname, String lname, String password, String maritalStatus, String dob, 
-            String city, String info, String status)
+        public void changeUserDetails(List<String> array)//omer
         {
-            String check = checkAccess(username);
-            if (check != null) { return check; }
-
-            User user = (User)database.Accounts.Find(account => account.Username == username);
-            user.changeDetails(fname, lname, password, maritalStatus, dob, city, info, status);
-            return "Succesful";
+            database.changeUserDetails(array);
         }
 
         //public String accessUserDetails(String username) // גישה לפרטי חשבון
@@ -132,34 +126,33 @@ namespace SocialNetwork
             //    return ("You cannot access this account"); 
             //}
         //}
-        
+        //neora
         public String disableAccount(String username) // השבתת חשבון
         {
             String check = checkAccess(username);
             if (check != null) { return check; }
 
-            int i = database.Accounts.FindIndex(account => account.Username == username);
-            database.disableAccount(i);
+            //int i = database.Accounts.FindIndex(account => account.Username == username);
+            //database.disableAccount(i);
+            database.disableAccount(username);
             return "Succesful";
         }
-
+        //neora
         public String reEnableAccount(String username) // חידוש חשבון מושבת
         {
             String check = checkAccess(username);
             if (check != null) { return check; }
 
-            int i = database.Accounts.FindIndex(account => account.Username == username);
-            database.reEnableAccount(i);
+           // int i = database.Accounts.FindIndex(account => account.Username == username);
+            //database.reEnableAccount(i);
+            database.reEnableAccount(username);
             return "Succesful";
         }
 
-        public String resetPassword(String username) // איפוס סיסמא למשתמש
+       public String resetPassword(String username) // איפוס סיסמא למשתמש//עמר
         {
-            String check = checkAccess(username);
-            if (check != null) { return check; }
-
-            User user = (User)database.Accounts.Find(account => account.Username == username);
-            user.Password = "0";
+            if (database.checkIfUserExists(username))
+                database.resetPassword(username);
             return "Succesful";
         }
     }

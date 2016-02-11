@@ -36,6 +36,7 @@
             this.txtRecipient = new System.Windows.Forms.TextBox();
             this.labInbox = new System.Windows.Forms.Label();
             this.gridInbox = new System.Windows.Forms.DataGridView();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.From = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Message = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Timestamp = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -52,18 +53,18 @@
             this.panel1.Controls.Add(this.txtRecipient);
             this.panel1.Controls.Add(this.labInbox);
             this.panel1.Controls.Add(this.gridInbox);
-            this.panel1.Location = new System.Drawing.Point(285, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2);
+            this.panel1.Location = new System.Drawing.Point(380, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(327, 351);
+            this.panel1.Size = new System.Drawing.Size(436, 432);
             this.panel1.TabIndex = 0;
             // 
             // btnDisconnect
             // 
-            this.btnDisconnect.Location = new System.Drawing.Point(174, 320);
-            this.btnDisconnect.Margin = new System.Windows.Forms.Padding(2);
+            this.btnDisconnect.Location = new System.Drawing.Point(232, 394);
+            this.btnDisconnect.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnDisconnect.Name = "btnDisconnect";
-            this.btnDisconnect.Size = new System.Drawing.Size(151, 31);
+            this.btnDisconnect.Size = new System.Drawing.Size(201, 38);
             this.btnDisconnect.TabIndex = 6;
             this.btnDisconnect.Text = "Disconnect";
             this.btnDisconnect.UseVisualStyleBackColor = true;
@@ -71,10 +72,10 @@
             // 
             // btnSettings
             // 
-            this.btnSettings.Location = new System.Drawing.Point(0, 320);
-            this.btnSettings.Margin = new System.Windows.Forms.Padding(2);
+            this.btnSettings.Location = new System.Drawing.Point(0, 394);
+            this.btnSettings.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSettings.Name = "btnSettings";
-            this.btnSettings.Size = new System.Drawing.Size(170, 31);
+            this.btnSettings.Size = new System.Drawing.Size(227, 38);
             this.btnSettings.TabIndex = 5;
             this.btnSettings.Text = "Settings";
             this.btnSettings.UseVisualStyleBackColor = true;
@@ -82,10 +83,10 @@
             // 
             // btnSend
             // 
-            this.btnSend.Location = new System.Drawing.Point(1, 293);
-            this.btnSend.Margin = new System.Windows.Forms.Padding(2);
+            this.btnSend.Location = new System.Drawing.Point(1, 361);
+            this.btnSend.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(324, 28);
+            this.btnSend.Size = new System.Drawing.Size(432, 34);
             this.btnSend.TabIndex = 4;
             this.btnSend.Text = "Send";
             this.btnSend.UseVisualStyleBackColor = true;
@@ -94,21 +95,21 @@
             // txtSend
             // 
             this.txtSend.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.txtSend.Location = new System.Drawing.Point(0, 234);
-            this.txtSend.Margin = new System.Windows.Forms.Padding(2);
+            this.txtSend.Location = new System.Drawing.Point(0, 288);
+            this.txtSend.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtSend.Multiline = true;
             this.txtSend.Name = "txtSend";
-            this.txtSend.Size = new System.Drawing.Size(325, 61);
+            this.txtSend.Size = new System.Drawing.Size(432, 74);
             this.txtSend.TabIndex = 3;
             this.txtSend.TextChanged += new System.EventHandler(this.txtSend_TextChanged);
             // 
             // txtRecipient
             // 
             this.txtRecipient.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.txtRecipient.Location = new System.Drawing.Point(0, 213);
-            this.txtRecipient.Margin = new System.Windows.Forms.Padding(2);
+            this.txtRecipient.Location = new System.Drawing.Point(0, 262);
+            this.txtRecipient.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtRecipient.Name = "txtRecipient";
-            this.txtRecipient.Size = new System.Drawing.Size(325, 23);
+            this.txtRecipient.Size = new System.Drawing.Size(432, 26);
             this.txtRecipient.TabIndex = 2;
             this.txtRecipient.Text = "Recipient\'s Username";
             this.txtRecipient.TextChanged += new System.EventHandler(this.txtRecipient_TextChanged);
@@ -117,10 +118,9 @@
             // 
             this.labInbox.AutoSize = true;
             this.labInbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.labInbox.Location = new System.Drawing.Point(133, 2);
-            this.labInbox.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labInbox.Location = new System.Drawing.Point(177, 2);
             this.labInbox.Name = "labInbox";
-            this.labInbox.Size = new System.Drawing.Size(81, 26);
+            this.labInbox.Size = new System.Drawing.Size(99, 31);
             this.labInbox.TabIndex = 1;
             this.labInbox.Text = "INBOX";
             this.labInbox.Click += new System.EventHandler(this.labInbox_Click);
@@ -131,22 +131,29 @@
             this.gridInbox.BackgroundColor = System.Drawing.Color.White;
             this.gridInbox.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridInbox.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ID,
             this.From,
             this.Message,
             this.Timestamp});
             this.gridInbox.GridColor = System.Drawing.Color.DeepSkyBlue;
-            this.gridInbox.Location = new System.Drawing.Point(0, 29);
-            this.gridInbox.Margin = new System.Windows.Forms.Padding(2);
+            this.gridInbox.Location = new System.Drawing.Point(0, 36);
+            this.gridInbox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.gridInbox.Name = "gridInbox";
             this.gridInbox.ReadOnly = true;
             this.gridInbox.RowTemplate.Height = 24;
             this.gridInbox.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridInbox.Size = new System.Drawing.Size(325, 182);
+            this.gridInbox.Size = new System.Drawing.Size(433, 224);
             this.gridInbox.TabIndex = 0;
             this.gridInbox.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridInbox_CellContentClick);
             this.gridInbox.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridInbox_CellContentDoubleClick);
             this.gridInbox.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.gridInbox_UserDeletedRow);
             this.gridInbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gridInbox_KeyDown);
+            // 
+            // ID
+            // 
+            this.ID.HeaderText = "ID";
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
             // 
             // From
             // 
@@ -168,11 +175,11 @@
             // 
             // formAccount
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(612, 350);
+            this.ClientSize = new System.Drawing.Size(816, 431);
             this.Controls.Add(this.panel1);
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "formAccount";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Account Menu";
@@ -194,8 +201,9 @@
         protected System.Windows.Forms.Button btnSend;
         protected System.Windows.Forms.TextBox txtSend;
         protected System.Windows.Forms.TextBox txtRecipient;
-        protected System.Windows.Forms.DataGridViewTextBoxColumn From;
-        protected System.Windows.Forms.DataGridViewTextBoxColumn Message;
-        protected System.Windows.Forms.DataGridViewTextBoxColumn Timestamp;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn From;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Message;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Timestamp;
     }
 }
