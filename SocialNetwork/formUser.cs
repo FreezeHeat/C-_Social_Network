@@ -247,20 +247,14 @@ namespace SocialNetwork
             {
                 if (database.checkPermission(this.txtTargetUsername.Text) != null) // בדיקת רשות
                 {
-
+                    this.yourPosts = false;
+                    this.targetPosts = database.getAllPosts(this.txtTargetUsername.Text); // שמור את הרשימה של המשתמש האחר
+                    this.elsePostLocation = this.targetPosts.Count - 1;
+                    if (this.elsePostLocation >= 0) { this.refreshPost(); }
+                    else { MessageBox.Show("This user has no posts..."); }
                 }
             }
 
-            if(i >= 0 && database.Accounts[i].Permission == 0) // גישה למשתמש שקיים במערכת
-            {
-                this.yourPosts = false;
-                User target = (User)database.Accounts[i];
-                this.targetPosts = database.getAllPosts(target.Username); // שמור את הרשימה של המשתמש האחר
-                this.elsePostLocation = this.targetPosts.Count - 1;
-
-                if (this.elsePostLocation >= 0) { this.refreshPost(); }
-                else { MessageBox.Show("This user has no posts..."); }
-            }
             else
             {
                 MessageBox.Show("No such user found");
@@ -335,7 +329,7 @@ namespace SocialNetwork
         public void reset() // איפוס ערכים
         {
             this.database = Database.getDatabase();
-            this.posts = user.posts.Posts;
+            this.posts = database.getAllPosts(user.Username);
             this.targetPosts = null;
             this.yourPostLocation = this.posts.Count - 1;
             this.elsePostLocation = -1; 
