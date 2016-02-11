@@ -201,9 +201,9 @@
         protected System.Windows.Forms.Button btnSend;
         protected System.Windows.Forms.TextBox txtSend;
         protected System.Windows.Forms.TextBox txtRecipient;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn From;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Message;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Timestamp;
+        protected System.Windows.Forms.DataGridViewTextBoxColumn ID;
+        protected System.Windows.Forms.DataGridViewTextBoxColumn From;
+        protected System.Windows.Forms.DataGridViewTextBoxColumn Message;
+        protected System.Windows.Forms.DataGridViewTextBoxColumn Timestamp;
     }
 }

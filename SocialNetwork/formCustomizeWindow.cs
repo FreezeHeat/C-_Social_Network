@@ -18,12 +18,12 @@ namespace SocialNetwork
         Color defaultText; 
         Color defaultBG;
 
-        public formCustomizeWindow(int index, formAccount parent)
+        public formCustomizeWindow(User user, formAccount parent)
         {
             InitializeComponent();
             this.Show();
             this.parent = parent;
-            this.user = (User)database.Accounts[index];
+            this.user = user;
             this.defaultText = this.parent.ForeColor;
             this.defaultBG = this.parent.BackColor;
             if (user.BG == null)

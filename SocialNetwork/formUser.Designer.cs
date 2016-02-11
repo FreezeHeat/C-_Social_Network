@@ -248,20 +248,20 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel panSocial;
-        private System.Windows.Forms.TextBox txtStatus;
-        private System.Windows.Forms.Label labStatus;
-        private System.Windows.Forms.Button btnUpdateStatus;
-        private System.Windows.Forms.Label labPost;
-        private System.Windows.Forms.TextBox txtPost;
-        private System.Windows.Forms.Button btnNewPost;
-        private System.Windows.Forms.Button btnNextPost;
-        private System.Windows.Forms.Button btnPreviousPost;
-        private System.Windows.Forms.Button btnGetPost;
-        private System.Windows.Forms.Button btnPlaylist;
-        private System.Windows.Forms.Button btnSendTicket;
-        private System.Windows.Forms.TextBox txtTargetUsername;
-        private System.Windows.Forms.Button btnRestoreYourPosts;
-        private System.Windows.Forms.Button btnDeletePost;
+        protected System.Windows.Forms.Panel panSocial;
+        protected System.Windows.Forms.TextBox txtStatus;
+        protected System.Windows.Forms.Label labStatus;
+        protected System.Windows.Forms.Button btnUpdateStatus;
+        protected System.Windows.Forms.Label labPost;
+        protected System.Windows.Forms.TextBox txtPost;
+        protected System.Windows.Forms.Button btnNewPost;
+        protected System.Windows.Forms.Button btnNextPost;
+        protected System.Windows.Forms.Button btnPreviousPost;
+        protected System.Windows.Forms.Button btnGetPost;
+        protected System.Windows.Forms.Button btnPlaylist;
+        protected System.Windows.Forms.Button btnSendTicket;
+        protected System.Windows.Forms.TextBox txtTargetUsername;
+        protected System.Windows.Forms.Button btnRestoreYourPosts;
+        protected System.Windows.Forms.Button btnDeletePost;
     }
 }

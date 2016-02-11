@@ -10,7 +10,7 @@ namespace SocialNetwork
 {
     sealed class Database
     {
-        private string db_Address = "Data Source=SocialNetwork.sqlite;Version=3;foreign keys = ON;"; // חייב לתמוך במפתחות זרים
+        private string db_Address = "Data Source=SocialNetwork.sqlite; Version=3; foreign keys=true;"; // חייב לתמוך במפתחות זרים
         private SQLiteConnection m_dbConnection;
 
         private List<Account> accounts = new List<Account>(); // משתמשים
@@ -70,7 +70,7 @@ namespace SocialNetwork
                          "mail TEXT NOT NULL," +
                          "date TEXT NOT NULL," +
                          "wasRead INTEGER NOT NULL," +
-                         "FOREIGN KEY(username) REFERENCES Accounts(username) ON UPDATE CASCADE ON DELETE CASCADE" +
+                         "FOREIGN KEY(username) REFERENCES Accounts(username) ON UPDATE CASCADE" +
                          ");" +
                          "CREATE TABLE Posts(" +
                          "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
@@ -133,7 +133,7 @@ namespace SocialNetwork
                 string password = reader["password"].ToString();
                 string fname = reader["fname"].ToString();
                 string lname = reader["lname"].ToString();
-                int permission = (int)reader["permission"];
+                int permission = Int32.Parse(reader["permission"].ToString());
 
                 if (permission == 0)
                 {
@@ -209,7 +209,7 @@ namespace SocialNetwork
 
             while (reader.Read())
             {
-                int id = (int)reader["id"];
+                int id = Int32.Parse(reader["id"].ToString());
                 String username = reader["username"].ToString();
                 String details = reader["details"].ToString();
                 String representative = reader["representative"].ToString();
@@ -233,13 +233,13 @@ namespace SocialNetwork
 
             while (reader.Read())
             {
-                int id = (int)reader["id"];
+                int id = Int32.Parse(reader["id"].ToString());
                 String sender = reader["sender"].ToString();
                 String mail = reader["mail"].ToString();
                 String date = reader["date"].ToString();
-                bool wasRead = (bool)reader["wasRead"];
+                bool wasRead = (Int32.Parse(reader["wasRead"].ToString()) == 1) ? true : false ;
 
-                Message message = new Message(sender, mail, date);
+                Message message = new Message(id, sender, mail, date);
                 inbox.Add(message);
             }
 
@@ -261,10 +261,13 @@ namespace SocialNetwork
                 string password = reader["password"].ToString();
                 string fname = reader["fname"].ToString();
                 string lname = reader["lname"].ToString();
-                int permission = (int)reader["permission"];
+                int permission = Int32.Parse(reader["permission"].ToString());
+                bool disabled = (Int32.Parse(reader["disabled"].ToString()) == 1) ? true : false;
 
-                if(permission == 0)
+
+                if (permission == 0)
                 {
+                    reader.Close();
                     sql = "SELECT * FROM Users WHERE username LIKE '" + AccUsername + "'";
                     query.CommandText = sql;
                     reader = query.ExecuteReader();
@@ -276,12 +279,15 @@ namespace SocialNetwork
                         string info = reader["info"].ToString();
                         string status = reader["status"].ToString();
                         reader.Close();
-                        return new User(username, fname, lname, password, maritalStatus, dob, city, info, status);
+                        User temp = new User(username, fname, lname, password, maritalStatus, dob, city, info, status);
+                        temp.Disabled = disabled;
+                        return temp;
                     }
                 }
 
                 else if (permission == 1)
                 {
+                    reader.Close();
                     sql = "SELECT * FROM TechSupport WHERE username LIKE '" + AccUsername + "'";
                     query.CommandText = sql;
                     reader = query.ExecuteReader();
@@ -289,14 +295,19 @@ namespace SocialNetwork
                     {
                         long workerID = (long)reader["workerID"];
                         reader.Close();
-                        return new TechSupport(username, fname, lname, password);
+                        TechSupport temp = new TechSupport(username, fname, lname, password);
+                        temp.Disabled = disabled;
+                        return temp;
                     }
                 }
 
                 else
                 {
                     reader.Close();
-                    return new Admin(username, fname, lname, password);
+                    Admin temp = new Admin(username, fname, lname, password);
+                    temp.Disabled = disabled;
+                    return temp;
+
                 }
             }
 
@@ -367,9 +378,9 @@ namespace SocialNetwork
         {
             m_dbConnection = new SQLiteConnection(db_Address);
             m_dbConnection.Open();
-            string sql = "UPDATE Accounts" +
-                         "SET disabled = 1" +
-                         "WHERE username LIKE" + "'" + username + "';";
+            string sql = "UPDATE Accounts " +
+                         "SET disabled = 1 " +
+                         "WHERE username LIKE " + "'" + username + "';";
             SQLiteCommand query = new SQLiteCommand(sql, m_dbConnection);
             query.ExecuteNonQuery();
         }
@@ -378,9 +389,9 @@ namespace SocialNetwork
         {
             m_dbConnection = new SQLiteConnection(db_Address);
             m_dbConnection.Open();
-            string sql = "UPDATE Accounts" +
-                         "SET disabled = 0" +
-                         "WHERE username LIKE" + "'" + username + "';";
+            string sql = "UPDATE Accounts " +
+                         "SET disabled = 0 " +
+                         "WHERE username LIKE " + "'" + username + "';";
             SQLiteCommand query = new SQLiteCommand(sql, m_dbConnection);
             query.ExecuteNonQuery();
         }
@@ -389,8 +400,8 @@ namespace SocialNetwork
         {
             m_dbConnection = new SQLiteConnection(db_Address);
             m_dbConnection.Open();
-            string sql = "DELETE FROM Accounts" +
-                         "WHERE username LIKE" + "'" + username + "';";
+            string sql = "DELETE FROM Accounts " +
+                         "WHERE username LIKE " + "'" + username + "';";
             SQLiteCommand query = new SQLiteCommand(sql, m_dbConnection);
             query.ExecuteNonQuery();
         }
@@ -399,11 +410,12 @@ namespace SocialNetwork
         {
             m_dbConnection = new SQLiteConnection(db_Address);
             m_dbConnection.Open();
-            string sql = "INSERT INTO Inboxes(username, sender, mail, wasRead) VALUES(" +
+            string sql = "INSERT INTO Inboxes(username, sender, mail, date, wasRead) VALUES(" +
                          "'" + account + "'," +
-                         "'" + message.Sender + "'," +
-                         "'" + message.Mail + "'," +
-                         message.WasRead +
+                         "'" + message.Sender + "', " +
+                         "'" + message.Mail + "', " +
+                         "'" + message.Date + "', "+
+                         ((message.WasRead == true)? 1:0) +
                          ");";
             SQLiteCommand query = new SQLiteCommand(sql, m_dbConnection);
             query.ExecuteNonQuery();
@@ -413,8 +425,8 @@ namespace SocialNetwork
         {
             m_dbConnection = new SQLiteConnection(db_Address);
             m_dbConnection.Open();
-            string sql = "DELETE FROM Inboxes" +
-                         "WHERE id =" + index + ";";
+            string sql = "DELETE FROM Inboxes " +
+                         "WHERE id = " + index + ";";
             SQLiteCommand query = new SQLiteCommand(sql, m_dbConnection);
             query.ExecuteNonQuery();
         }
@@ -436,7 +448,7 @@ namespace SocialNetwork
         {
             m_dbConnection = new SQLiteConnection(db_Address);
             m_dbConnection.Open();
-            string sql = "DELETE FROM Tickets" +
+            string sql = "DELETE FROM Tickets " +
                          "WHERE id =" + index + ";";
             SQLiteCommand query = new SQLiteCommand(sql, m_dbConnection);
             query.ExecuteNonQuery();

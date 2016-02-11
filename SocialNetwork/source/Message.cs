@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork
 {
-    sealed class Message
+    public sealed class Message
     {
         //private String recipient; // המשתמש שמקבל את הודעה
         private int id; // מספר סידורי של ההודעה
@@ -17,14 +17,14 @@ namespace SocialNetwork
         
 
         // בנאים ומתודות כלליות
-        public Message(int id, String sender, String mail)
-        {
-            this.id = id;
-            Sender = sender;
-            //Recipient = recipient;
-            Mail = mail;
-            this.date = DateTime.Now;
-        }
+        //public Message(int id, String sender, String mail)
+        //{
+        //    this.id = id;
+        //    Sender = sender;
+        //    //Recipient = recipient;
+        //    Mail = mail;
+        //    this.date = DateTime.Now;
+        //}
 
         public Message(String sender, String mail)
         {
@@ -35,8 +35,9 @@ namespace SocialNetwork
             this.date = DateTime.Now;
         }
 
-        public Message(String sender, String mail, String date)
+        public Message(int id, String sender, String mail, String date)
         {
+            this.id = id;
             Sender = sender;
             //Recipient = recipient;
             Mail = mail;

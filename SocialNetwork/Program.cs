@@ -21,9 +21,9 @@ namespace SocialNetwork
         {
             // בסיס נתונים
            
-           
         }
 
+        // מאתחל ממשק גרפי
         [STAThread]
         static void Main()
         {

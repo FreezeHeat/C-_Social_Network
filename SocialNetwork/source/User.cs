@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace SocialNetwork
 {
-    sealed class User : Account, ICustomizeForm
+    public sealed class User : Account, ICustomizeForm
     {
         private Database database = Database.getDatabase(); // מסד נתונים
         private String maritalStatus; // סטאטוס משפחתי

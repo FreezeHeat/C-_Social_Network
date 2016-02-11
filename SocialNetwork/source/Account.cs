@@ -7,7 +7,7 @@ using System.Text;
 
 namespace SocialNetwork
 {
-    abstract class Account // חשבון
+    public abstract class Account // חשבון
     {
         private Database database = Database.getDatabase();
         private String fname; // שם פרטי
@@ -130,15 +130,15 @@ namespace SocialNetwork
 
         public String sendMessage(String recipient, String message)
         {
-            int i = database.Accounts.FindIndex(x => x.Username.Equals(recipient));
+            
 
-            if(i < 0)
+            if(database.checkIfUserExists(recipient) == false)
             {
                 return "No such account";
             }
 
-            Message msg = new Message(this.Username, recipient, message);
-            database.Inboxes.Add(msg);
+            Message msg = new Message(this.Username, message);
+            database.AddMessage(msg, recipient);
             return "Success";
         }
 

@@ -16,11 +16,10 @@ namespace SocialNetwork
         private Database database = Database.getDatabase();
         private formUser parent;
 
-        public formSettingsUser(ref int index, formUser parent)
+        public formSettingsUser(User user, formUser parent)
         {
             InitializeComponent();
-            this.index = index;
-            user = (User)database.Accounts[index];
+            this.user = user;
             this.parent = parent;
         }
 
@@ -31,7 +30,7 @@ namespace SocialNetwork
 
         protected override void btnChangeDetails_Click(object sender, EventArgs e)
         {
-            formChangeDetailsUser form = new formChangeDetailsUser(ref index);
+            formChangeDetailsUser form = new formChangeDetailsUser(user);
             form.FormClosed += new FormClosedEventHandler(childClosed);
             this.Hide();
             form.Show();
@@ -39,7 +38,8 @@ namespace SocialNetwork
 
         private void btnCustomizeWindow_Click(object sender, EventArgs e)
         {
-            formCustomizeWindow customize = new formCustomizeWindow(this.index, this.parent);
+            formCustomizeWindow customize = new formCustomizeWindow(user, this.parent);
+            //customize.FormClosed += new 
             this.Hide();
         }
 
@@ -54,7 +54,7 @@ namespace SocialNetwork
 
             if(result == DialogResult.Yes)
             {
-                database.Accounts.RemoveAt(index);
+                database.deleteAccount(user.Username);
                 this.Close();
                 parent.Close();
             }

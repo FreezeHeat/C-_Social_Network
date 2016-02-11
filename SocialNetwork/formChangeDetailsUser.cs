@@ -13,11 +13,10 @@ namespace SocialNetwork
     public partial class formChangeDetailsUser : formChangeDetails
     {
         private User user;
-        public formChangeDetailsUser(ref int index)
+        public formChangeDetailsUser(User user)
         {
             InitializeComponent();
-            this.index = index;
-            user = (User)Database.getDatabase().Accounts[index];
+            this.user = user;
         }
 
         private void formChangeDetailsUser_Load(object sender, EventArgs e)

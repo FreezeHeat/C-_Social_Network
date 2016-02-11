@@ -22,11 +22,10 @@ namespace SocialNetwork
         private int elsePostLocation; // מונה פוסטים של משתמש אחר
         private bool yourPosts = true; // אמת כאשר מונה הפוסטים הוא של המשתמש 
 
-        public formUser(int index, Home parent)
+        public formUser(Account account, Home parent)
         {
             InitializeComponent();
-            this.index = index;
-            user = (User)database.Accounts[index];
+            user = (User)account;
             if (user.Text != null || user.BG != null) // יישום צבעי רקע וטקסט
             {
                 this.ForeColor = user.Text;
@@ -52,7 +51,7 @@ namespace SocialNetwork
         protected override void formAccount_Load(object sender, EventArgs e)
         {
             this.gridInbox.Rows.Clear(); // טעינת ההודעות של המשתמש לחלון
-            List<Message> messages = database.getInbox(this.user.Username); 
+            List<Message> messages = database.getInbox(this.user.Username);
 
             foreach (Message msg in messages)
             {
@@ -65,16 +64,18 @@ namespace SocialNetwork
         {
 
 
-            if (database.checkIfUserExists(txtRecipient.Text) == true)
-            {
-                Message msg = new Message(user.Username, txtSend.Text);
-                database.AddMessage(msg, txtRecipient.Text);
-                MessageBox.Show("Sent successfully!");
-            }
-            else
-            {
-                MessageBox.Show("Wrong username...");
-            }
+            //if (database.checkIfUserExists(txtRecipient.Text) == true)
+            //{
+            //    Message msg = new Message(user.Username, txtSend.Text);
+            //    database.AddMessage(msg, txtRecipient.Text);
+            //    MessageBox.Show("Sent successfully!");
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Wrong username...");
+            //}
+            String result = user.sendMessage(txtRecipient.Text, txtSend.Text);
+            MessageBox.Show(result);
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -94,7 +95,7 @@ namespace SocialNetwork
 
         protected override void btnSettings_Click(object sender, EventArgs e)
         {
-            formSettingsUser form = new formSettingsUser(ref index, this);
+            formSettingsUser form = new formSettingsUser(user, this);
             form.FormClosed += new FormClosedEventHandler(childClosed);
             this.Hide();
             form.Show();
@@ -207,7 +208,7 @@ namespace SocialNetwork
 
         private void btnNextPost_Click(object sender, EventArgs e)
         {
-            if(this.yourPosts == true)
+            if (this.yourPosts == true)
             {
                 if (this.yourPostLocation < posts.Count - 1)
                 {
@@ -219,9 +220,9 @@ namespace SocialNetwork
                     MessageBox.Show("No newer posts");
                 }
             }
-            
-            
-            
+
+
+
             else
             {
                 if (this.elsePostLocation < targetPosts.Count - 1)
@@ -269,12 +270,12 @@ namespace SocialNetwork
 
         private void refreshPost() // רענון פוסטים
         {
-            
-            if(this.yourPosts == true && this.yourPostLocation >= 0) {
+
+            if (this.yourPosts == true && this.yourPostLocation >= 0) {
                 this.txtPost.Text = posts[yourPostLocation].ToString();
             }
 
-            else if (this.yourPosts == false && this.elsePostLocation >= 0){
+            else if (this.yourPosts == false && this.elsePostLocation >= 0) {
                 this.txtPost.Text = targetPosts[elsePostLocation].ToString();
             }
             else
@@ -302,7 +303,7 @@ namespace SocialNetwork
             {
                 MessageBox.Show("You can't delete someone else's posts");
             }
-            else if(this.yourPostLocation >= 0)
+            else if (this.yourPostLocation >= 0)
             {
                 this.posts.RemoveAt(this.yourPostLocation);
                 this.yourPostLocation--;
@@ -332,7 +333,7 @@ namespace SocialNetwork
             this.posts = database.getAllPosts(user.Username);
             this.targetPosts = null;
             this.yourPostLocation = this.posts.Count - 1;
-            this.elsePostLocation = -1; 
+            this.elsePostLocation = -1;
             this.yourPosts = true;
             this.refreshPost();
 

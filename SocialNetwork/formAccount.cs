@@ -14,7 +14,6 @@ namespace SocialNetwork
     public partial class formAccount : Form
     {
         protected int index;
-        private Database database = Database.getDatabase();
 
         public formAccount()
         {
