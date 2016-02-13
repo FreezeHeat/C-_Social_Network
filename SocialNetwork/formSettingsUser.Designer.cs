@@ -30,8 +30,6 @@
         {
             this.btnCustomizeWindow = new System.Windows.Forms.Button();
             this.btnRemoveOwnAccount = new System.Windows.Forms.Button();
-            this.btnBackupPosts = new System.Windows.Forms.Button();
-            this.btnRestorePosts = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnChangeDetails
@@ -60,35 +58,11 @@
             this.btnRemoveOwnAccount.UseVisualStyleBackColor = true;
             this.btnRemoveOwnAccount.Click += new System.EventHandler(this.btnRemoveOwnAccount_Click);
             // 
-            // btnBackupPosts
-            // 
-            this.btnBackupPosts.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBackupPosts.Location = new System.Drawing.Point(124, 115);
-            this.btnBackupPosts.Name = "btnBackupPosts";
-            this.btnBackupPosts.Size = new System.Drawing.Size(353, 48);
-            this.btnBackupPosts.TabIndex = 3;
-            this.btnBackupPosts.Text = "Backup Posts";
-            this.btnBackupPosts.UseVisualStyleBackColor = true;
-            //this.btnBackupPosts.Click += new System.EventHandler(this.btnBackupPosts_Click);
-            // 
-            // btnRestorePosts
-            // 
-            this.btnRestorePosts.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRestorePosts.Location = new System.Drawing.Point(124, 169);
-            this.btnRestorePosts.Name = "btnRestorePosts";
-            this.btnRestorePosts.Size = new System.Drawing.Size(353, 48);
-            this.btnRestorePosts.TabIndex = 4;
-            this.btnRestorePosts.Text = "Restore Posts";
-            this.btnRestorePosts.UseVisualStyleBackColor = true;
-            //this.btnRestorePosts.Click += new System.EventHandler(this.btnRestorePosts_Click);
-            // 
             // formSettingsUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(612, 350);
-            this.Controls.Add(this.btnRestorePosts);
-            this.Controls.Add(this.btnBackupPosts);
             this.Controls.Add(this.btnRemoveOwnAccount);
             this.Controls.Add(this.btnCustomizeWindow);
             this.Name = "formSettingsUser";
@@ -96,8 +70,6 @@
             this.Controls.SetChildIndex(this.btnChangeDetails, 0);
             this.Controls.SetChildIndex(this.btnCustomizeWindow, 0);
             this.Controls.SetChildIndex(this.btnRemoveOwnAccount, 0);
-            this.Controls.SetChildIndex(this.btnBackupPosts, 0);
-            this.Controls.SetChildIndex(this.btnRestorePosts, 0);
             this.ResumeLayout(false);
 
         }
@@ -106,7 +78,5 @@
 
         private System.Windows.Forms.Button btnCustomizeWindow;
         private System.Windows.Forms.Button btnRemoveOwnAccount;
-        private System.Windows.Forms.Button btnBackupPosts;
-        private System.Windows.Forms.Button btnRestorePosts;
     }
 }

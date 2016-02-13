@@ -315,6 +315,7 @@
             // 
             // cbFormType
             // 
+            this.cbFormType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFormType.FormattingEnabled = true;
             this.cbFormType.Location = new System.Drawing.Point(-1, 385);
             this.cbFormType.Name = "cbFormType";

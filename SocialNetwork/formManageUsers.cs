@@ -7,32 +7,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SocialNetwork.source;
 
 namespace SocialNetwork
 {
-    public partial class formManageUsers : Form
+    public partial class formManageUsers : Form///עמר 2\12 כל המחלקה שונתה  
     {
         private formTechSupport parent;
         private Database database = Database.getDatabase();
-        private List<Account> userslist=Database.getDatabase().Accounts;
+        private List<Account> userslist;
         private TechSupport tech;
-        private int index;
-        private int ptr=-1;//מצביע  לשורה בטבלה
-        private bool wasTriedToChange = false;//האם בוצע שינוי בטבלה או לא 
+        private int ptr = -1;//מצביע  לשורה בטבלה
 
 
 
-        
-        public formManageUsers(int index,formTechSupport parent)
+
+        public formManageUsers(TechSupport tech, formTechSupport parent)
         {
             InitializeComponent();
-            this.index = index;
-            tech = (TechSupport)database.Accounts[index];
+            this.tech = tech;
             this.parent = parent;
+            userslist = database.getAllAccounts();
             loadTable(tech);
             dgvUsers.CurrentCell = dgvUsers.Rows[0].Cells["colPassword"];
-            
-     
+
+
 
 
 
@@ -43,7 +42,7 @@ namespace SocialNetwork
         {
             for (int i = 0; i < userslist.Count; i++)//מילוי הטבלה בערכים חוץ מהנציג הנוכחי
             {
-                if (!userslist[i].Equals(tech))
+                if (userslist[i].Username != tech.Username)
                 {
                     string[] row = new string[] { userslist[i].Username, userslist[i].Password, userslist[i].Disabled.ToString() };
                     dgvUsers.Rows.Add(row);
@@ -54,38 +53,33 @@ namespace SocialNetwork
         }
         protected override void OnClosing(CancelEventArgs e)
         {
-            if (wasTriedToChange)
             {
-                int indexcmp = database.Accounts.FindIndex(x => x.Username.Equals(dgvUsers.Rows[ptr].Cells["colUserName"].FormattedValue.ToString()));
-                String flag;
-                for (int checker = 0; checker < dgvUsers.Rows.Count-1; checker++)//בדיקה ועדכון של שינויים בטבלה לפי הדגלים
-                {
-                    flag = dgvUsers.Rows[checker].Cells["colMaybeChanged"].FormattedValue.ToString();
-                    if (flag.Equals("1"))
-                        if (!dgvUsers.Rows[ptr].Cells["colPassword"].FormattedValue.Equals(database.Accounts[indexcmp].Password))//בדיקה אם הערכים בנתונים שווים לערכים בטבלה ואם לא נעשה עדכון
-                            database.Accounts[indexcmp].Password = dgvUsers.Rows[ptr].Cells["colPassword"].Value.ToString();
 
 
-                }
+
+                parent.Show();
+                this.Hide();
             }
-                
-            parent.Show();
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
-            
+
+
         }
 
-        private void  btnDisableAccount_Click(object sender, EventArgs e)//נעילת חשבון
+        private void btnDisableAccount_Click(object sender, EventArgs e)//נעילת חשבון
         {
+
             if (ptr != -1)
             {
-                if (database.Accounts[ptr].Disabled==false)
+                int tempLocal = userslist.FindIndex(x => x.Username.Equals(dgvUsers.Rows[ptr].Cells["colUserName"].FormattedValue.ToString()));
+
+                if (userslist[tempLocal].Disabled == false)
                 {
-                    database.Accounts[ptr].Disabled = true;
-                    
+
+                    tech.disableAccount(dgvUsers.Rows[ptr].Cells["Username"].FormattedValue.ToString());
+                    userslist[tempLocal].Disabled = true;
                     dgvUsers.Rows[ptr].Cells["colEnableDisable"].Value = true;
                     dgvUsers.Refresh();
                 }
@@ -94,9 +88,9 @@ namespace SocialNetwork
         }
 
         private void dgvUsers_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)//הצבעה על שורה בטבלה
-       {
-           ptr =e.RowIndex;
-           
+        {
+            ptr = e.RowIndex;
+
 
         }
 
@@ -104,25 +98,27 @@ namespace SocialNetwork
         {
             if (ptr != -1)
             {
-                if (database.Accounts[ptr].Disabled == true)
+                int tempLocal = userslist.FindIndex(x => x.Username.Equals(dgvUsers.Rows[ptr].Cells["colUserName"].FormattedValue.ToString()));
+                if (userslist[tempLocal].Disabled == true)
                 {
-                    database.Accounts[ptr].Disabled = false;
-
+                    tech.reEnableAccount(dgvUsers.Rows[ptr].Cells["Username"].FormattedValue.ToString());
+                    userslist[tempLocal].Disabled = false;
                     dgvUsers.Rows[ptr].Cells["colEnableDisable"].Value = false;
                     dgvUsers.Refresh();
                 }
             }
         }
 
-        private void btnEnableResetPassword_Click(object sender, EventArgs e)//ניתנת אפשרות לערוך את הסיסמא
+        private void btnResetPassword_Click(object sender, EventArgs e)//ניתנת אפשרות לערוך את הסיסמא
         {
             try
             {
-                if (ptr != -1)
-                {////בדיקת קצה האם אנחנו באזור תקין בטבלה
-                    dgvUsers.Rows[ptr].Cells["colPassword"].ReadOnly = false;
-                    wasTriedToChange = true;
-                    dgvUsers.Rows[ptr].Cells["colMaybeChanged"].Value = 1;//מדליק דגל שאולי מישהו רוצה לשנות משהו בתא  הזה
+                if (ptr != -1)////בדיקת קצה האם אנחנו באזור תקין בטבלה
+                {
+                    String tempLocal = dgvUsers.Rows[ptr].Cells["colUserName"].FormattedValue.ToString();
+                    tech.resetPassword(tempLocal);
+
+                    dgvUsers.Rows[ptr].Cells["colPassword"].Value = "0";
                     dgvUsers.Refresh();
                 }
             }
@@ -130,30 +126,19 @@ namespace SocialNetwork
             {
                 MessageBox.Show(ex.Message.ToString());
             }
-          
+
         }
 
-        private void btnDisableResetPassword_Click(object sender, EventArgs e)//ביטול אפשרות עריכה לסיסמא
-        {
-            try
-            {
-                if (ptr != -1)//בדיקת קצה האם אנחנו באזור תקין בטבלה
-                {
-                    dgvUsers.Rows[ptr].Cells["colPassword"].ReadOnly = true;
-                    dgvUsers.RefreshEdit();
-                }
-            }
 
-            catch (IndexOutOfRangeException ex)
-            {
-                MessageBox.Show(ex.Message.ToString());
-            }
-            
-        }
 
         private void dgv_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
         {
             e.PaintParts &= ~DataGridViewPaintParts.Focus;
+        }
+
+        private void dgvUsers_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
 
     }

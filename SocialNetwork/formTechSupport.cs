@@ -11,22 +11,35 @@ using System.Windows.Forms;
 
 namespace SocialNetwork
 {
-    public partial class formTechSupport : formAccount
+    public partial class formTechSupport : formAccount//change omer 12.2
     {
         private Home parent;
         private Database database = Database.getDatabase();
+        private List<Ticket> tickets;
+        private TechSupport tech;
 
-
-        
-     
-        
-        public formTechSupport(int index, Home parent)
+        public formTechSupport(Account tech, Home parent)//change
         {
             InitializeComponent();
-            this.index = index;
-            TechSupport tech = (TechSupport)database.Accounts[index];
+            tickets = database.getAllTickets();
+            this.tech = (TechSupport)tech;
             this.parent = parent;
-            
+            ticketComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+
+
+        }
+
+        private void ticketBox(TechSupport tech)
+        {
+            for (int i = 0; i < tickets.Count; i++)//מילוי הטבלה בערכים חוץ מהנציג הנוכחי
+            {
+
+                string[] row = new string[] { tickets[i].Username, tickets[i].Details, tickets[i].Representative, tickets[i].Date };
+                dgvTicketBox.Rows.Add(row);
+
+            }
+
+
         }
 
 
@@ -42,7 +55,7 @@ namespace SocialNetwork
 
         private void btnManageUsers_Click_1(object sender, EventArgs e)
         {
-            formManageUsers manageUsers = new formManageUsers(index, this);
+            formManageUsers manageUsers = new formManageUsers(tech, this);//change
             this.Hide();
             manageUsers.Show();
 
@@ -59,5 +72,33 @@ namespace SocialNetwork
         {
             this.Show();
         }
+
+        private void ticketComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            String item = ticketComboBox.SelectedItem.ToString();
+            switch (item)
+            {
+                case "Open Tickets":
+                    dgvTicketBox.Columns.Clear();
+                    //for (int i = 0; i < tickets.Count; i++)//מילוי הטבלה בערכים חוץ מהנציג הנוכחי
+                    //{
+                    //    if(tickets[i].Representative==null)
+                    //    string[] row = new string[] { tickets[i].Username, tickets[i].Details, tickets[i].Representative, tickets[i].Date };
+                    //    dgvTicketBox.Rows.Add(row);
+
+                    //}
+                    break;
+                case "My Tickets":
+                    dgvTicketBox.Columns.Clear();
+                    break;
+                case "All Tickets":
+                    dgvTicketBox.Columns.Clear();
+                    break;
+            }
+
+
+        }
+
     }
 }

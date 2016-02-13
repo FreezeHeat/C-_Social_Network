@@ -11,14 +11,14 @@ namespace SocialNetwork
         private String username; // שם משתמש ששלח את הפנייה
         private String details; // הפנייה עצמה
         private String representative; // נציג תמיכה שמטפל בפנייה
-        private DateTime date; // תאריך פנייה
+        private String date; // תאריך פנייה
 
         public Ticket(String username, String details)
         {
             Username = username;
             Details = details;
             Representative = null;
-            this.date = DateTime.Now; // מכניס את התאריך והזמן בה נשלחה הפנייה
+            this.date = DateTime.Now.ToShortDateString(); // מכניס את התאריך והזמן בה נשלחה הפנייה
         }
 
         public Ticket(String username, String details, String representative, String date)
@@ -26,13 +26,13 @@ namespace SocialNetwork
             Username = username;
             Details = details;
             Representative = representative;
+            this.date = date;
+            //String[] values = date.Split('/'); // פיצול המחרוזת והמרתם למספרים
+            //int day = Int32.Parse(values[0]);
+            //int month = Int32.Parse(values[1]);
+            //int year = Int32.Parse(values[2]);
 
-            String[] values = date.Split('/'); // פיצול המחרוזת והמרתם למספרים
-            int day = Int32.Parse(values[0]);
-            int month = Int32.Parse(values[1]);
-            int year = Int32.Parse(values[2]);
-
-            this.date = new DateTime(year, month, day);
+            //this.date = new DateTime(year, month, day);
         }
 
 
@@ -60,7 +60,7 @@ namespace SocialNetwork
 
         public String Date
         {
-            get { return this.date.ToString(); }
+            get { return this.date; }
         }
 
         public override string ToString()

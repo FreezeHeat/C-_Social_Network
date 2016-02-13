@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork
 {
-    sealed class Post
+    public sealed class Post
     {
         private int id; // מספר סידורי
         private String source; // מפיץ הפוסט
@@ -25,6 +25,7 @@ namespace SocialNetwork
         {
             Source = source;
             Content = post;
+            date = DateTime.Now;
         }
 
         public int ID

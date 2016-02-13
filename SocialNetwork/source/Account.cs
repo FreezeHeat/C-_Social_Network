@@ -27,6 +27,17 @@ namespace SocialNetwork
             Lname = lname;
             Password = password;
             Permission = permission;
+            Disabled = false;
+        }
+
+        public Account(String username, String fname, String lname, String password, int permission, bool disabled)
+        {
+            Username = username;
+            Fname = fname;
+            Lname = lname;
+            Password = password;
+            Permission = permission;
+            Disabled = disabled;
         }
 
 
@@ -86,9 +97,16 @@ namespace SocialNetwork
 
         public virtual String changeDetails(String fname, String lname, String password ) // למי שלא הבין וירטואל זה בשביל שיהיה ניתן להוריש ולדרוס את המתודה במחלקות שירשו
         {
+            // שינוי מקומי
             Fname = fname;
             Lname = lname;
             Password = password;
+            List<String> list = new List<String>() { Username, fname, lname, password };
+
+            // שינוי במסד הנתונים
+            
+            database.changeDetails(list);
+
             return "Details were changed";
         }
 
@@ -136,8 +154,8 @@ namespace SocialNetwork
             {
                 return "No such account";
             }
-
-            Message msg = new Message(this.Username, message);
+            String str = StringChecks.doubleApostrophy(message);
+            Message msg = new Message(this.Username, str);
             database.AddMessage(msg, recipient);
             return "Success";
         }

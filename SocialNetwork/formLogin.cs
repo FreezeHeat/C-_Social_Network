@@ -16,6 +16,7 @@ namespace SocialNetwork
         private Home parent;
         private bool close = true;
         private Database database = Database.getDatabase();
+        private int count = 0;
 
         public formLogin(Home parent)
         {
@@ -43,7 +44,7 @@ namespace SocialNetwork
 
         private void formLogin_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyValue == (char)Keys.Enter)
+            if(e.KeyValue == (char)Keys.Enter || e.KeyValue == (char)Keys.Return)
             {
                 login();
             }
@@ -51,7 +52,6 @@ namespace SocialNetwork
 
         private void login()
         {
-            int count = 0;
             String username = txtUsername.Text;
             String password = txtPassword.Text;
 
@@ -91,13 +91,13 @@ namespace SocialNetwork
                     case 1:
                         close = false;
                         this.Close();
-                        formTechSupport tech = new formTechSupport(1, parent); // תפריט למשתמש תמיכה טכנית
+                        formTechSupport tech = new formTechSupport(account, parent); // תפריט למשתמש תמיכה טכנית change omer
                         tech.Show();
                         break;
                     case 2:
                         close = false;
                         this.Close();
-                        formAdmin admin = new formAdmin(1, parent); // תפריט  מנהל
+                        formAdmin admin = new formAdmin(account, parent); // תפריט  מנהל
                         admin.Show();
                         break;
                     default:
@@ -106,6 +106,22 @@ namespace SocialNetwork
                         this.Close();
                         break;
                 }
+            }
+        }
+
+        private void txtPassword_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyValue == (char)Keys.Enter || e.KeyValue == (char)Keys.Return)
+            {
+                login();
+            }
+        }
+
+        private void txtUsername_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyValue == (char)Keys.Enter || e.KeyValue == (char)Keys.Return)
+            {
+                login();
             }
         }
     }

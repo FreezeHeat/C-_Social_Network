@@ -46,7 +46,7 @@ namespace SocialNetwork.source
 
             if(varchar.Any(Char.IsLetterOrDigit) == false)
             {
-                return "Must contain at letters or digits";
+                return "Must contain letters or digits";
             }
 
             return null;
@@ -65,6 +65,23 @@ namespace SocialNetwork.source
             }
 
             return null;
+        }
+
+        public static String doubleApostrophy(String str)
+        {
+            String fixedString = "";
+
+            foreach(char x in str)
+            {
+                fixedString += x;
+
+                if (x == '\'')
+                {
+                    fixedString += "'";
+                }
+            }
+
+            return fixedString;
         }
     }
 }

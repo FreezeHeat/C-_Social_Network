@@ -43,10 +43,10 @@
             this.btnUpdateStatus = new System.Windows.Forms.Button();
             this.txtStatus = new System.Windows.Forms.TextBox();
             this.labStatus = new System.Windows.Forms.Label();
+            this.btnGetUserInfo = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panSocial.SuspendLayout();
             this.SuspendLayout();
-
             // 
             // txtSend
             // 
@@ -58,6 +58,7 @@
             // 
             // panSocial
             // 
+            this.panSocial.Controls.Add(this.btnGetUserInfo);
             this.panSocial.Controls.Add(this.btnDeletePost);
             this.panSocial.Controls.Add(this.btnRestoreYourPosts);
             this.panSocial.Controls.Add(this.txtTargetUsername);
@@ -227,6 +228,17 @@
             this.labStatus.Text = "Status";
             this.labStatus.Click += new System.EventHandler(this.txtStatus_Click);
             // 
+            // btnGetUserInfo
+            // 
+            this.btnGetUserInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGetUserInfo.Location = new System.Drawing.Point(9, 250);
+            this.btnGetUserInfo.Name = "btnGetUserInfo";
+            this.btnGetUserInfo.Size = new System.Drawing.Size(80, 26);
+            this.btnGetUserInfo.TabIndex = 14;
+            this.btnGetUserInfo.Text = "User Info";
+            this.btnGetUserInfo.UseVisualStyleBackColor = true;
+            this.btnGetUserInfo.Click += new System.EventHandler(this.btnGetUserInfo_Click);
+            // 
             // formUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -263,5 +275,6 @@
         protected System.Windows.Forms.TextBox txtTargetUsername;
         protected System.Windows.Forms.Button btnRestoreYourPosts;
         protected System.Windows.Forms.Button btnDeletePost;
+        protected System.Windows.Forms.Button btnGetUserInfo;
     }
 }

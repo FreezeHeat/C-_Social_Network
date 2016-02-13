@@ -74,5 +74,10 @@ namespace SocialNetwork
         {
 
         }
+
+        protected virtual void gridInbox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
     }
 }

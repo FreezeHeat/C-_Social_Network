@@ -21,6 +21,12 @@ namespace SocialNetwork
         {
         }
 
+        public Admin(String username, String fname, String lname, String password, bool disabled)
+            : base(username, fname, lname, password, (int)Program.permissionLevels.Admin, disabled)
+        {
+        }
+
+
         // מתודות כלליות
         public override string ToString()
         {

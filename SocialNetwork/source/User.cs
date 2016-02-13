@@ -30,6 +30,31 @@ namespace SocialNetwork
             City = city;
             Info = info;
             Status = status;
+
+            int [] colors = database.getColors(Username);
+            if (colors != null)
+            {
+                BG = Color.FromArgb(colors[0]);
+                Text = Color.FromArgb(colors[1]);
+            }
+        }
+
+        public User(String username, String fname, String lname, String password, bool disabled,
+                    String maritalStatus, String dob, String city, String info, String status)
+                    : base(username, fname, lname, password, (int)Program.permissionLevels.User, disabled) // שדות אב שיורשים
+        {
+            MaritalStatus = maritalStatus;
+            Dob = dob;
+            City = city;
+            Info = info;
+            Status = status;
+
+            int[] colors = database.getColors(Username);
+            if (colors != null)
+            {
+                BG = Color.FromArgb(colors[0]);
+                Text = Color.FromArgb(colors[1]);
+            }
         }
 
 
@@ -105,7 +130,7 @@ namespace SocialNetwork
                     "Status: " + Status + "\r\n";    
         }
 
-        public void changeDetails(String fname, String lname, String password, String maritalStatus, String dob,
+        public String changeDetails(String fname, String lname, String password, String maritalStatus, String dob,
             String city, String info, String status)  // שינוי פרטים
         {
             base.changeDetails(fname, lname, password);
@@ -114,6 +139,10 @@ namespace SocialNetwork
             City = city;
             Info = info;
             Status = status;
+            List<String> list = new List<String>() { Username , dob, city, info, status };
+            database.changeUserDetails(list);
+
+            return "Details were changed";
         }
 
         public String checkDob(String str)
@@ -188,6 +217,12 @@ namespace SocialNetwork
             return check;
         }
 
+        public String checkPost(String str)
+        {
+            String check = StringChecks.isLettersAndWhiteSpace(str);
+            return check;
+        }
+
 
         //מתודות ייחודיות
 
@@ -195,8 +230,9 @@ namespace SocialNetwork
         public String[] searchUser(String search)
         {
             String str = "";
+            List<Account> accounts = database.getAllAccounts();
 
-            foreach(Account i in database.Accounts)
+            foreach(Account i in accounts)
             {
                 if (i.Username.Contains(search))
                 {
@@ -209,20 +245,39 @@ namespace SocialNetwork
 
         public String getUserDetails(String username)
         {
-            int index = database.Accounts.FindIndex(temp => temp.Username.Equals(username)); // מציאת מיקום המשתמש ברשימה
-
-            if (index >= 0 && database.Accounts[index].Permission.Equals(0)) // בדיקה האם הוא בכלל נמצא ואם כן האם הוא משתמש רגיל
+            // האם המשתמש קיים והאם הוא משתמש רגיל
+            if (database.checkIfUserExists(username) == true && database.checkPermission(username) == "0")
             {
-                return database.Accounts[index].ToString();
+                User user = database.getUser(username);
+                return user.ToString();
             }
-
-            return "Failed";
+            return "No such user";
         }
 
         public String removeOwnAccount() // מתודת מחיקת חשבון אישי
         {
             database.deleteAccount(this.Username);
             return "Your account was deleted";
+        }
+
+        public String updateStatus(String status)
+        {
+            String str = StringChecks.doubleApostrophy(status);
+            database.updateUserStatus(Username, str);
+            return "Success";
+        }
+        public String addPost(Post post)
+        {
+            String str = StringChecks.doubleApostrophy(post.Content);
+            post.Content = str;
+            database.AddPost(post);
+            return "Success";
+        }
+
+        public String removePost(int id)
+        {
+            database.RemovePost(id);
+            return "Success";
         }
 
         //public void Playlist() // פלייליסט 
@@ -271,20 +326,31 @@ namespace SocialNetwork
 
         public String sendTicket(String message) // שליחת פנייה
         {
-            Ticket ticket = new Ticket(this.Username, message);
-            database.AddTicket(ticket);
-            return "Ticket was sent";
+
+            String check = StringChecks.isVarChar(message);
+            if (check == null)
+            {
+                String str = StringChecks.doubleApostrophy(message);
+                Ticket ticket = new Ticket(this.Username, str);
+                database.AddTicket(ticket);
+                return "Ticket was sent";
+            }
+            else
+            {
+                return check;
+            }
         }
 
         public void changeColors(Color text, Color bg) // שינוי צבעים
         {
             this.text = text;
             this.bg = bg;
+            database.changeColors(this.Username, bg.ToArgb(), text.ToArgb());
         }
 
         public Color[] yourColors() // קביעת צבעים בכל התחברות
         {
-            Color[] colors = new Color [] { this.text, this.bg };
+            Color[] colors = new Color[] { this.text, this.bg };
             return colors;
         }
 

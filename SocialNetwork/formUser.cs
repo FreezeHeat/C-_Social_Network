@@ -21,11 +21,12 @@ namespace SocialNetwork
         private int yourPostLocation; // מונה פוסטים שלך
         private int elsePostLocation; // מונה פוסטים של משתמש אחר
         private bool yourPosts = true; // אמת כאשר מונה הפוסטים הוא של המשתמש 
-
+        
         public formUser(Account account, Home parent)
         {
             InitializeComponent();
             user = (User)account;
+
             if (user.Text != null || user.BG != null) // יישום צבעי רקע וטקסט
             {
                 this.ForeColor = user.Text;
@@ -50,14 +51,7 @@ namespace SocialNetwork
 
         protected override void formAccount_Load(object sender, EventArgs e)
         {
-            this.gridInbox.Rows.Clear(); // טעינת ההודעות של המשתמש לחלון
-            List<Message> messages = database.getInbox(this.user.Username);
-
-            foreach (Message msg in messages)
-            {
-                string[] message = new string[] { msg.ID.ToString(), msg.Sender, msg.Mail, msg.Date };
-                this.gridInbox.Rows.Add(message);
-            }
+            resetInbox();
         }
 
         protected override void btnSend_Click(object sender, EventArgs e) // שליחת הודעה
@@ -131,6 +125,7 @@ namespace SocialNetwork
             // מספיק שיש משהו שאפשר לקרוא 
             if (this.txtStatus.Text.Any(Char.IsLetterOrDigit) == true)
             {
+                MessageBox.Show(user.updateStatus(txtStatus.Text));
                 user.Status = this.txtStatus.Text;
             }
         }
@@ -145,9 +140,10 @@ namespace SocialNetwork
 
         private void TxtPost_Leave(object sender, EventArgs e)
         {
-            if (!(txtPost.Text.Any(Char.IsLetterOrDigit))) // אם לא נכתב משהו 
+            String result = user.checkPost(txtPost.Text);
+            if (result != null) // אם לא נכתב משהו 
             {
-                MessageBox.Show("You must enter your new post!");
+                MessageBox.Show(result);
                 txtPost.Focus();
             }
 
@@ -158,11 +154,8 @@ namespace SocialNetwork
                 if (DialogResult == DialogResult.OK)
                 {
                     Post post = new Post(user.Username, txtPost.Text);
-                    database.AddPost(post);
-                    posts.Add(post);
-                    this.yourPosts = true;
-                    this.yourPostLocation++;
-                    this.refreshPost();
+                    MessageBox.Show(user.addPost(post));
+                    this.reset();
                     txtPost.Leave -= TxtPost_Leave;
                     txtPost.ReadOnly = true;
                 }
@@ -305,6 +298,10 @@ namespace SocialNetwork
             }
             else if (this.yourPostLocation >= 0)
             {
+                // מחיקה במסד נתונים
+                database.RemovePost(this.posts[this.yourPostLocation].ID);
+
+                // מחיקה מקומית
                 this.posts.RemoveAt(this.yourPostLocation);
                 this.yourPostLocation--;
                 this.refreshPost();
@@ -323,7 +320,7 @@ namespace SocialNetwork
 
         private void btnSendTicket_Click(object sender, EventArgs e)
         {
-            formSendTicket sendTicket = new formSendTicket(this, this.index);
+            formSendTicket sendTicket = new formSendTicket(this, user);
             this.Hide();
         }
 
@@ -345,11 +342,23 @@ namespace SocialNetwork
             this.Refresh();
         }
 
+        public void resetInbox()
+        {
+            this.gridInbox.Rows.Clear(); // טעינת ההודעות של המשתמש לחלון
+            List<Message> messages = database.getInbox(this.user.Username);
+
+            foreach (Message msg in messages)
+            {
+                string[] message = new string[] { msg.ID.ToString(), msg.Sender, msg.Mail, msg.Date };
+                this.gridInbox.Rows.Add(message);
+            }
+        }
+
         protected override void gridInbox_KeyDown(object sender, KeyEventArgs e)
         {
             if (this.gridInbox.RowCount > 0)
             {
-                if (e.KeyValue == (char)Keys.Delete || e.KeyValue == (char)Keys.Back)
+                if (e.KeyValue == (char)Keys.Delete)
                 {
                     DialogResult result = MessageBox.Show("Are you sure you want to delete this message?",
                         "Delete Message", MessageBoxButtons.YesNo);
@@ -358,12 +367,18 @@ namespace SocialNetwork
                     {
                         int index = Int32.Parse(gridInbox.Rows[gridInbox.CurrentRow.Index].Cells["ID"].Value.ToString());
                         database.DeleteMessage(index);
-                        gridInbox.Rows.Remove(gridInbox.Rows[gridInbox.CurrentRow.Index]);
+                        resetInbox();
                         MessageBox.Show("Deleted Succesfully!");
-                        this.gridInbox.Refresh();
+                        gridInbox.Refresh();
+                        e.Handled = true;
                     }
                 }
             }
+        }
+
+        private void btnGetUserInfo_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(user.getUserDetails(txtTargetUsername.Text));
         }
     }
 }

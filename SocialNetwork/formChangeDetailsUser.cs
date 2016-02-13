@@ -13,6 +13,9 @@ namespace SocialNetwork
     public partial class formChangeDetailsUser : formChangeDetails
     {
         private User user;
+        private String[] maritalStatuses = new String[] { "Single", "Married", "Married with children" };
+        private Database database = Database.getDatabase();
+
         public formChangeDetailsUser(User user)
         {
             InitializeComponent();
@@ -22,6 +25,7 @@ namespace SocialNetwork
         private void formChangeDetailsUser_Load(object sender, EventArgs e)
         {
             resetValidLables(); // לאתחל לייבלים
+            cbMaritalStatus.Items.AddRange(maritalStatuses);
         }
 
         protected override void btnConfirm_Click(object sender, EventArgs e)
@@ -29,54 +33,75 @@ namespace SocialNetwork
             resetValidLables(); // להחביא ליבלים
 
             bool valid = true; // לבדיקה
+            String result;
 
-            if (txtLname.Text != "")
+            result = user.checkFname(txtFname.Text);
+            if(result != null)
             {
-                if (txtLname.Text.Any(Char.IsDigit) == true) // אם יש מספרים
-                {
-                    labValidLname.Text = "Can't enter digits inside a name";
-                    valid = false;
-                }
-                else if (txtLname.Text.Any(Char.IsLetter) == false) // אם אין אותיות
-                {
-                    labValidLname.Text = "You must enter letters";
-                    valid = false;
-                }
-            }
-            else
-            {
-                labValidLname.Text = "Invalid";
                 valid = false;
+                labValidFname.Text = result;
             }
 
-            if (txtPassword.Text != "")
+            result = user.checkLname(txtLname.Text);
+            if (result != null)
             {
-                if (txtPassword.Text.Any(Char.IsWhiteSpace) == true) // מינוס אחד או רווחים
-                {
-                    labValidPassword.Text = "must not contain white-spaces";
-                    valid = false;
-                }
-            }
-            else
-            {
-                labValidPassword.Text = "Invalid";
                 valid = false;
+                labValidLname.Text = result;
             }
 
-
-
-            if (txtPassword.Text != txtConfirmPassword.Text) // סיסמאות שונות
+            result = user.checkPassword(txtPassword.Text);
+            if (result != null)
             {
-                labValidConfirmPassword.Text = "Passwords do not match";
                 valid = false;
+                labValidFname.Text = result;
             }
+
+            if(txtPassword.Text != txtConfirmPassword.Text)
+            {
+                valid = false;
+                labValidConfirmPassword.Text = "Password do not match";
+            }
+
+            result = user.checkDob(txtDob.Text);
+            if(result != null)
+            {
+                valid = false;
+                labValidDob.Text = result;
+            }
+
+            result = user.checkCity(txtCity.Text);
+            if (result != null)
+            {
+                valid = false;
+                labValidCity.Text = result;
+            }
+
+            if (cbMaritalStatus.SelectedItem == null)
+            {
+                valid = false;
+                labValidMaritalStatus.Text = "Must select a status";
+            }
+
+            result = user.checkInfo(txtInfo.Text);
+            if (result != null)
+            {
+                valid = false;
+                labValidInfo.Text = result;
+            }
+
 
             if (valid) // מידע תקין
             {
                 user.Fname = txtFname.Text;
                 user.Lname = txtLname.Text;
                 user.Password = txtPassword.Text;
+                user.Dob = txtDob.Text;
+                user.City = txtCity.Text;
+                user.MaritalStatus = cbMaritalStatus.SelectedText;
+                user.Info = txtInfo.Text;
 
+                List<String> list = new List<String>() { user.Fname, user.Lname, user.Password, user.Dob, user.City, user.MaritalStatus, user.Info };
+                database.changeUserDetails(list);
                 MessageBox.Show("Succesful!");
                 this.Close();
             }
@@ -88,11 +113,20 @@ namespace SocialNetwork
             labValidPassword.Text = "";
             labValidFname.Text = "";
             labValidLname.Text = "";
+            labValidDob.Text = "";
+            labValidCity.Text = "";
+            labValidMaritalStatus.Text = "";
+            labValidInfo.Text = "";
+
 
             labValidConfirmPassword.ForeColor = Color.Red;
             labValidPassword.ForeColor = Color.Red;
             labValidFname.ForeColor = Color.Red;
             labValidLname.ForeColor = Color.Red;
+            labValidDob.ForeColor = Color.Red;
+            labValidCity.ForeColor = Color.Red;
+            labValidMaritalStatus.ForeColor = Color.Red;
+            labValidInfo.ForeColor = Color.Red;
         }
     }
 }

@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             this.dgvTicketBox = new System.Windows.Forms.DataGridView();
+            this.coldetails = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colUserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colRepresentive = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ticketComboBox = new System.Windows.Forms.ComboBox();
             this.btnHandleTicket = new System.Windows.Forms.Button();
             this.btnFinishTicket = new System.Windows.Forms.Button();
@@ -57,6 +61,11 @@
             // 
             this.dgvTicketBox.BackgroundColor = System.Drawing.Color.White;
             this.dgvTicketBox.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTicketBox.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.coldetails,
+            this.colUserName,
+            this.colRepresentive,
+            this.colDate});
             this.dgvTicketBox.Location = new System.Drawing.Point(-1, 36);
             this.dgvTicketBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dgvTicketBox.Name = "dgvTicketBox";
@@ -65,14 +74,39 @@
             this.dgvTicketBox.TabIndex = 1;
             this.dgvTicketBox.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Tickets_CellContentClick);
             // 
+            // coldetails
+            // 
+            this.coldetails.HeaderText = "Details";
+            this.coldetails.Name = "coldetails";
+            // 
+            // colUserName
+            // 
+            this.colUserName.HeaderText = "userName";
+            this.colUserName.Name = "colUserName";
+            // 
+            // colRepresentive
+            // 
+            this.colRepresentive.HeaderText = "Representive";
+            this.colRepresentive.Name = "colRepresentive";
+            // 
+            // colDate
+            // 
+            this.colDate.HeaderText = "Date";
+            this.colDate.Name = "colDate";
+            // 
             // ticketComboBox
             // 
             this.ticketComboBox.FormattingEnabled = true;
+            this.ticketComboBox.Items.AddRange(new object[] {
+            "Open Ticket\t",
+            "My Tickets",
+            "All Tickets"});
             this.ticketComboBox.Location = new System.Drawing.Point(248, 266);
             this.ticketComboBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ticketComboBox.Name = "ticketComboBox";
             this.ticketComboBox.Size = new System.Drawing.Size(127, 24);
             this.ticketComboBox.TabIndex = 2;
+            this.ticketComboBox.SelectedIndexChanged += new System.EventHandler(this.ticketComboBox_SelectedIndexChanged);
             // 
             // btnHandleTicket
             // 
@@ -162,5 +196,9 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label labTicketBox;
         private System.Windows.Forms.Button btnManageUsers;
+        private System.Windows.Forms.DataGridViewTextBoxColumn coldetails;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colUserName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colRepresentive;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDate;
     }
 }

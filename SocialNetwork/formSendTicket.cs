@@ -16,11 +16,11 @@ namespace SocialNetwork.source
         private formAccount parent;
         private Database database = Database.getDatabase();
 
-        public formSendTicket(formAccount parent, int index)
+        public formSendTicket(formAccount parent, User user)
         {
             InitializeComponent();
             this.parent = parent;
-            this.user = (User)database.Accounts[index];
+            this.user = user;
             this.Show();
         }
 
@@ -31,18 +31,9 @@ namespace SocialNetwork.source
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            if(txtTicket.Text.Any(Char.IsLetter) == true)
-            {
-                Ticket ticket = new Ticket(user.Username, txtTicket.Text);
-                database.AddTicket(ticket);
-                MessageBox.Show("Ticket sent!");
-                this.Close();
-            }
-            else
-            {
-                MessageBox.Show("Please enter something that can be read");
-                txtTicket.Text = "";
-            }
+            String ticket = user.sendTicket(txtTicket.Text);
+            MessageBox.Show(ticket);
+            this.Close();
         }
 
         private void formSendTicket_Load(object sender, EventArgs e)

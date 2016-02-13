@@ -14,17 +14,17 @@ namespace SocialNetwork
     public partial class formAdmin : formAccount
     {
         private Home parent;
+        private Admin admin;
         private DataGridViewRow dgvRow = new DataGridViewRow();
         private Database database = Database.getDatabase();
-        private List<Account> userslist = Database.getDatabase().Accounts;
+        private List<Account> userslist;
 
-        public formAdmin(int index, Home parent)
+        public formAdmin(Account account, Home parent)
         {
             InitializeComponent();
-            this.index = index;
-            Admin admin = (Admin)database.Accounts[index];
+            admin = (Admin)account;
             this.parent = parent;
-            loadTable(admin);
+
         }
 
 
