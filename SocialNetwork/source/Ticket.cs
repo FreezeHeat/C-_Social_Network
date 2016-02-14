@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork
 {
-    sealed class Ticket
-    {
+    public sealed class Ticket
+    {//omer 13.2
         private String username; // שם משתמש ששלח את הפנייה
         private String details; // הפנייה עצמה
         private String representative; // נציג תמיכה שמטפל בפנייה
         private String date; // תאריך פנייה
+        private int id;
 
         public Ticket(String username, String details)
         {
@@ -20,13 +21,14 @@ namespace SocialNetwork
             Representative = null;
             this.date = DateTime.Now.ToShortDateString(); // מכניס את התאריך והזמן בה נשלחה הפנייה
         }
-
-        public Ticket(String username, String details, String representative, String date)
+        //omer 13.2
+        public Ticket(int id, String username, String details, String representative, String date)
         {
             Username = username;
             Details = details;
             Representative = representative;
             this.date = date;
+            Id = id;
             //String[] values = date.Split('/'); // פיצול המחרוזת והמרתם למספרים
             //int day = Int32.Parse(values[0]);
             //int month = Int32.Parse(values[1]);
@@ -35,11 +37,12 @@ namespace SocialNetwork
             //this.date = new DateTime(year, month, day);
         }
 
-
-        //public int TicketID
-        //{
-        //    get { return this.ticketID; }
-        //}
+        //omer 13.2
+        public int Id
+        {
+            get { return this.id; }
+            set { this.id = value; }
+        }
         public String Username
         {
             get { return this.username; }

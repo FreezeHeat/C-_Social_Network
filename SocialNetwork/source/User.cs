@@ -139,7 +139,13 @@ namespace SocialNetwork
             City = city;
             Info = info;
             Status = status;
-            List<String> list = new List<String>() { Username , dob, city, info, status };
+            List<String> list = new List<String>()
+            {   StringChecks.doubleApostrophy(Username),
+                StringChecks.doubleApostrophy(MaritalStatus),
+                StringChecks.doubleApostrophy(Dob),
+                StringChecks.doubleApostrophy(City),
+                StringChecks.doubleApostrophy(Status),
+                StringChecks.doubleApostrophy(Info) };
             database.changeUserDetails(list);
 
             return "Details were changed";

@@ -10,7 +10,7 @@ namespace SocialNetwork.source
     {
         public static bool isEmpty(String str)
         {
-            if(str == null)
+            if(str == null || str == "")
             {
                 return true;
             }

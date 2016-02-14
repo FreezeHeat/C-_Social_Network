@@ -25,7 +25,6 @@ namespace SocialNetwork
 
         private void formSettingsUser_Load(object sender, EventArgs e)
         {
-
         }
 
         protected override void btnChangeDetails_Click(object sender, EventArgs e)
@@ -58,7 +57,6 @@ namespace SocialNetwork
                 this.Close();
                 parent.Close();
             }
-            
         }
 
         //private void btnBackupPosts_Click(object sender, EventArgs e)

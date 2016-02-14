@@ -27,12 +27,13 @@ namespace SocialNetwork
             this.userScheme();
         }
 
-        public formSignUp(formAccount formParent, int index)
+        public formSignUp(formAccount formParent, Account account)
         {
             InitializeComponent();
             this.formParent = formParent;
             this.adminScheme();
         }
+
         private void label1_Click(object sender, EventArgs e)
         {
 
@@ -88,15 +89,15 @@ namespace SocialNetwork
                     case Program.permissionLevels.User:
                         User user = new User(txtUsername.Text, txtFname.Text, txtLname.Text, txtPassword.Text,
                             cbMaritalStatus.SelectedText, txtDob.Text, txtCity.Text, txtInfo.Text, "");
-                        this.database.Accounts.Add(user);
+                        this.database.addUser(user);//neora
                         break;
                     case Program.permissionLevels.TechSupport:
                         TechSupport tech = new TechSupport(txtUsername.Text, txtFname.Text, txtLname.Text, txtPassword.Text);
-                        this.database.Accounts.Add(tech);
+                        this.database.addTech(tech);//neora
                         break;
                     case Program.permissionLevels.Admin:
                         Admin admin = new Admin(txtUsername.Text, txtFname.Text, txtLname.Text, txtPassword.Text);
-                        this.database.Accounts.Add(admin);
+                        this.database.addAdmin(admin);//neora
                         break;
                     default:
                         MessageBox.Show("Exceptional Exception - permission unknown - exiting program");
@@ -105,6 +106,10 @@ namespace SocialNetwork
                 }
 
                 MessageBox.Show("Succesful!");
+                this.Close();
+                formParent.Show();//neora
+
+
             }
         }
 

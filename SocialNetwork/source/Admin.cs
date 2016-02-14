@@ -9,7 +9,7 @@ using System.Text;
 
 namespace SocialNetwork
 {
-    sealed class Admin : Account, IDisableAcc, ICustomizeForm
+    public sealed class Admin : Account, IDisableAcc, ICustomizeForm
     {
         private Database database = Database.getDatabase();
         private Color text;// צבע טקסט
@@ -19,13 +19,36 @@ namespace SocialNetwork
         public Admin(String username, String fname, String lname, String password)
             : base(username, fname, lname, password, (int)Program.permissionLevels.Admin)
         {
+            int[] colors = database.getColors(Username);
+            if (colors != null)
+            {
+                BG = Color.FromArgb(colors[0]);
+                Text = Color.FromArgb(colors[1]);
+            }
         }
 
         public Admin(String username, String fname, String lname, String password, bool disabled)
             : base(username, fname, lname, password, (int)Program.permissionLevels.Admin, disabled)
         {
+            int[] colors = database.getColors(Username);
+            if (colors != null)
+            {
+                BG = Color.FromArgb(colors[0]);
+                Text = Color.FromArgb(colors[1]);
+            }
         }
 
+        public Color BG
+        {
+            get { return this.bg; }
+            set { this.bg = value; }
+        }
+
+        public Color Text
+        {
+            get { return this.text; }
+            set { this.text = value; }
+        }
 
         // מתודות כלליות
         public override string ToString()
@@ -59,10 +82,9 @@ namespace SocialNetwork
         }
 
         //השבתת חשבון 
-        public String disableAccount(String username)
+        public void disableAccount(String username)
         {
             database.disableAccount(username);
-            return username + " account is re-enabled";
         }
 
         public String reEnableAccount(String username) // חידוש חשבון מושבת
@@ -92,6 +114,7 @@ namespace SocialNetwork
         {
             this.text = text;
             this.bg = bg;
+            database.changeColors(this.Username, bg.ToArgb(), text.ToArgb());
         }
 
         public Color[] yourColors() // קביעת צבעים בכל התחברות

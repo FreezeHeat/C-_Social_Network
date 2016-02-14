@@ -22,7 +22,7 @@ namespace SocialNetwork
         private int elsePostLocation; // מונה פוסטים של משתמש אחר
         private bool yourPosts = true; // אמת כאשר מונה הפוסטים הוא של המשתמש 
         
-        public formUser(Account account, Home parent)
+        public formUser(Account account, Home parent) : base(account, parent)
         {
             InitializeComponent();
             user = (User)account;
@@ -32,6 +32,7 @@ namespace SocialNetwork
                 this.ForeColor = user.Text;
                 this.BackColor = user.BG;
             }
+
             this.posts = database.getAllPosts(user.Username);
             this.yourPostLocation = this.posts.Count - 1;
             this.parent = parent;
@@ -49,10 +50,10 @@ namespace SocialNetwork
             this.Refresh();
         }
 
-        protected override void formAccount_Load(object sender, EventArgs e)
-        {
-            resetInbox();
-        }
+        //protected override void formAccount_Load(object sender, EventArgs e)
+        //{
+            
+        //}
 
         protected override void btnSend_Click(object sender, EventArgs e) // שליחת הודעה
         {
@@ -324,6 +325,12 @@ namespace SocialNetwork
             this.Hide();
         }
 
+        public void btnPlaylist_Click(object sender, EventArgs e)
+        {
+            MP3Player mp3 = new MP3Player();
+            mp3.Show();
+        }
+
         public void reset() // איפוס ערכים
         {
             this.database = Database.getDatabase();
@@ -342,39 +349,27 @@ namespace SocialNetwork
             this.Refresh();
         }
 
-        public void resetInbox()
-        {
-            this.gridInbox.Rows.Clear(); // טעינת ההודעות של המשתמש לחלון
-            List<Message> messages = database.getInbox(this.user.Username);
+        //protected override void gridInbox_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    if (this.gridInbox.RowCount > 0)
+        //    {
+        //        if (e.KeyValue == (char)Keys.Delete)
+        //        {
+        //            DialogResult result = MessageBox.Show("Are you sure you want to delete this message?",
+        //                "Delete Message", MessageBoxButtons.YesNo);
 
-            foreach (Message msg in messages)
-            {
-                string[] message = new string[] { msg.ID.ToString(), msg.Sender, msg.Mail, msg.Date };
-                this.gridInbox.Rows.Add(message);
-            }
-        }
-
-        protected override void gridInbox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (this.gridInbox.RowCount > 0)
-            {
-                if (e.KeyValue == (char)Keys.Delete)
-                {
-                    DialogResult result = MessageBox.Show("Are you sure you want to delete this message?",
-                        "Delete Message", MessageBoxButtons.YesNo);
-
-                    if (result == DialogResult.Yes)
-                    {
-                        int index = Int32.Parse(gridInbox.Rows[gridInbox.CurrentRow.Index].Cells["ID"].Value.ToString());
-                        database.DeleteMessage(index);
-                        resetInbox();
-                        MessageBox.Show("Deleted Succesfully!");
-                        gridInbox.Refresh();
-                        e.Handled = true;
-                    }
-                }
-            }
-        }
+        //            if (result == DialogResult.Yes)
+        //            {
+        //                int index = Int32.Parse(gridInbox.Rows[gridInbox.CurrentRow.Index].Cells["ID"].Value.ToString());
+        //                database.DeleteMessage(index);
+        //                resetInbox();
+        //                MessageBox.Show("Deleted Succesfully!");
+        //                gridInbox.Refresh();
+        //                e.Handled = true;
+        //            }
+        //        }
+        //    }
+        //}
 
         private void btnGetUserInfo_Click(object sender, EventArgs e)
         {

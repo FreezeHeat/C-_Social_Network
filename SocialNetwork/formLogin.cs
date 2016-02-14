@@ -73,38 +73,48 @@ namespace SocialNetwork
                 // התחברות
                 Account account = database.Login(username, password);
 
-                // אם המשתמש מושבת
-                if (account.Disabled == true)
+                if (account == null)
                 {
-                    //this.closeSwitch(false);
-                    //formDisabled disabled = new formDisabled(index, parent);
+                    MessageBox.Show("Wrong account details");
                 }
 
-                switch (account.Permission) //סוויצ' לפי הרשאה לפי האינדקס של אותו משתמש שנמצא קודם לכן
+                else
                 {
-                    case 0:
-                        close = false;
-                        this.Close();
-                        formUser user = new formUser(account, parent); // תפריט למשתמש רגיל
-                        user.Show();
-                        break;
-                    case 1:
-                        close = false;
-                        this.Close();
-                        formTechSupport tech = new formTechSupport(account, parent); // תפריט למשתמש תמיכה טכנית change omer
-                        tech.Show();
-                        break;
-                    case 2:
-                        close = false;
-                        this.Close();
-                        formAdmin admin = new formAdmin(account, parent); // תפריט  מנהל
-                        admin.Show();
-                        break;
-                    default:
-                        MessageBox.Show("Error - account permission unknown"); // מקרה קצה חריג שבו לא הוגדרה הרשאה למשתמש
-                        close = false;
-                        this.Close();
-                        break;
+                    // אם המשתמש מושבת
+                    if (account.Disabled == true)
+                    {
+                        //this.closeSwitch(false);
+                        //formDisabled disabled = new formDisabled(index, parent);
+                        MessageBox.Show("Disabled");
+                    }
+                    else {
+                        switch (account.Permission) //סוויצ' לפי הרשאה לפי האינדקס של אותו משתמש שנמצא קודם לכן
+                        {
+                            case 0:
+                                close = false;
+                                this.Close();
+                                formUser user = new formUser(account, parent); // תפריט למשתמש רגיל
+                                user.Show();
+                                break;
+                            case 1:
+                                close = false;
+                                this.Close();
+                                formTechSupport tech = new formTechSupport(account, parent); // תפריט למשתמש תמיכה טכנית change omer
+                                tech.Show();
+                                break;
+                            case 2:
+                                close = false;
+                                this.Close();
+                                formAdmin admin = new formAdmin(account, parent); // תפריט  מנהל
+                                admin.Show();
+                                break;
+                            default:
+                                MessageBox.Show("Error - account permission unknown"); // מקרה קצה חריג שבו לא הוגדרה הרשאה למשתמש
+                                close = false;
+                                this.Close();
+                                break;
+                        }
+                    }
                 }
             }
         }

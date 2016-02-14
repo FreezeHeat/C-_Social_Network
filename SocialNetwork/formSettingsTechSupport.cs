@@ -14,11 +14,12 @@ namespace SocialNetwork
     {
         private formTechSupport parent;
         private Database database = Database.getDatabase();
-        public formSettingsTechSupport(ref int index, formTechSupport parent)
+        private TechSupport tech;
+
+        public formSettingsTechSupport(TechSupport tech, formTechSupport parent)
         {
             InitializeComponent();
-            this.index = index;
-            TechSupport tech = (TechSupport)database.Accounts[index];
+            this.tech = tech;
             this.parent = parent;
 
         }
@@ -33,7 +34,7 @@ namespace SocialNetwork
 
         protected override void btnChangeDetails_Click(object sender, EventArgs e)
         {
-            formChangeDetailsTechSupport form = new formChangeDetailsTechSupport(ref index);
+            formChangeDetails form = new formChangeDetails(tech);
             form.FormClosed += new FormClosedEventHandler(childClosed);
             this.Hide();
             form.Show();

@@ -58,7 +58,7 @@ namespace SocialNetwork
 
             if (database.checkIfUserExists("Noah") == false)
             {
-                database.addUser(new User("Noah", "Meir", "Sharabi", "1234", "Married with 30 children", "12/08/2014", "Kefar Saba", "Need more babies!", "I do not know Why"));
+                database.addUser(new User("Noah", "Meir", "Sharabi", "1234", "Single", "12/08/2014", "Kefar Saba", "Need more babies!", "I do not know Why"));
             }
             //database.Accounts.Add(new User
             //(
@@ -75,7 +75,7 @@ namespace SocialNetwork
 
             if (database.checkIfUserExists("Asaf") == false)
             {
-                database.addUser(new User("Asaf", "Asaf", "Yeshayahu", "1234", "Married with 400 children", "01/01/1999", "Head and Shoulders", "It''s all bullshit", "Good evening!"));
+                database.addUser(new User("Asaf", "Asaf", "Yeshayahu", "1234", "Married with children", "01/01/1999", "Head and Shoulders", "It''s all bullshit", "Good evening!"));
             }
             //database.Accounts.Add(new User
             //(
@@ -92,7 +92,7 @@ namespace SocialNetwork
 
             if (database.checkIfUserExists("Nehora") == false)
             {
-                database.addUser(new User("Nehora", "Nehora", "Messika", "1234", "Married with 365 Children", "12/12/2000", "Somewhere over the rainbow", "Ask", "Let me sleep!"));
+                database.addUser(new User("Nehora", "Nehora", "Messika", "1234", "Married", "12/12/2000", "Somewhere over the rainbow", "Ask", "Let me sleep!"));
             }
             //database.Accounts.Add(new User
             //(

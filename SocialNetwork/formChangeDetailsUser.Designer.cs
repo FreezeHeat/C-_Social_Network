@@ -42,6 +42,26 @@
             this.labDob = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
+            // txtPassword
+            // 
+            this.txtPassword.TabIndex = 25;
+            // 
+            // txtConfirmPassword
+            // 
+            this.txtConfirmPassword.TabIndex = 26;
+            // 
+            // txtLname
+            // 
+            this.txtLname.TabIndex = 33;
+            // 
+            // txtFname
+            // 
+            this.txtFname.TabIndex = 30;
+            // 
+            // btnConfirm
+            // 
+            this.btnConfirm.Click += new System.EventHandler(this.btnConfirm_Click_1);
+            // 
             // labValidInfo
             // 
             this.labValidInfo.AutoSize = true;
@@ -83,7 +103,7 @@
             this.txtCity.Location = new System.Drawing.Point(166, 194);
             this.txtCity.Name = "txtCity";
             this.txtCity.Size = new System.Drawing.Size(277, 20);
-            this.txtCity.TabIndex = 43;
+            this.txtCity.TabIndex = 41;
             // 
             // labCity
             // 
@@ -101,7 +121,7 @@
             this.cbMaritalStatus.Location = new System.Drawing.Point(166, 232);
             this.cbMaritalStatus.Name = "cbMaritalStatus";
             this.cbMaritalStatus.Size = new System.Drawing.Size(277, 21);
-            this.cbMaritalStatus.TabIndex = 41;
+            this.cbMaritalStatus.TabIndex = 43;
             // 
             // labValidMaritalStatus
             // 

@@ -75,10 +75,10 @@ namespace SocialNetwork
             {
                 int tempLocal = userslist.FindIndex(x => x.Username.Equals(dgvUsers.Rows[ptr].Cells["colUserName"].FormattedValue.ToString()));
 
-                if (userslist[tempLocal].Disabled == false)
+                if (userslist[tempLocal].Permission != 2 && userslist[tempLocal].Disabled == false)
                 {
 
-                    tech.disableAccount(dgvUsers.Rows[ptr].Cells["Username"].FormattedValue.ToString());
+                    tech.disableAccount(dgvUsers.Rows[ptr].Cells["colUserName"].FormattedValue.ToString());
                     userslist[tempLocal].Disabled = true;
                     dgvUsers.Rows[ptr].Cells["colEnableDisable"].Value = true;
                     dgvUsers.Refresh();
@@ -101,7 +101,7 @@ namespace SocialNetwork
                 int tempLocal = userslist.FindIndex(x => x.Username.Equals(dgvUsers.Rows[ptr].Cells["colUserName"].FormattedValue.ToString()));
                 if (userslist[tempLocal].Disabled == true)
                 {
-                    tech.reEnableAccount(dgvUsers.Rows[ptr].Cells["Username"].FormattedValue.ToString());
+                    tech.reEnableAccount(dgvUsers.Rows[ptr].Cells["colUserName"].FormattedValue.ToString());
                     userslist[tempLocal].Disabled = false;
                     dgvUsers.Rows[ptr].Cells["colEnableDisable"].Value = false;
                     dgvUsers.Refresh();

@@ -13,26 +13,46 @@ namespace SocialNetwork
     public partial class formCustomizeWindow : Form
     {
         User user;
+        Admin admin;
         formAccount parent;
         Database database = Database.getDatabase();
         Color defaultText; 
         Color defaultBG;
 
-        public formCustomizeWindow(User user, formAccount parent)
+        public formCustomizeWindow(Account account, formAccount parent)
         {
             InitializeComponent();
             this.Show();
             this.parent = parent;
-            this.user = user;
-            this.defaultText = this.parent.ForeColor;
-            this.defaultBG = this.parent.BackColor;
-            if (user.BG == null)
+
+            if(account.Permission == 2)
             {
-                user.BG = defaultBG;
+                this.admin = (Admin)account;
+                this.defaultText = this.parent.ForeColor;
+                this.defaultBG = this.parent.BackColor;
+                if (admin.BG == null)
+                {
+                    admin.BG = defaultBG;
+                }
+                if (admin.Text == null)
+                {
+                    admin.Text = defaultText;
+                }
             }
-            if (user.Text == null)
+
+            if(account.Permission == 0)
             {
-                user.Text = defaultText;
+                this.user = (User)account;
+                this.defaultText = this.parent.ForeColor;
+                this.defaultBG = this.parent.BackColor;
+                if (user.BG == null)
+                {
+                    user.BG = defaultBG;
+                }
+                if (user.Text == null)
+                {
+                    user.Text = defaultText;
+                }
             }
         }
 
@@ -43,19 +63,40 @@ namespace SocialNetwork
 
         private void btnTextColor_Click(object sender, EventArgs e)
         {
-            if (this.colorDialog.ShowDialog() == DialogResult.OK)
+            if (admin == null)
             {
-                if (sameColors(colorDialog.Color, this.user.Text) == false) // בדיקה בין טקסט לרקע
+                if (this.colorDialog.ShowDialog() == DialogResult.OK)
                 {
-                    user.Text = colorDialog.Color;
-                    this.ForeColor = colorDialog.Color;
-                    parent.ForeColor = colorDialog.Color;
-                    this.Refresh();
-                    parent.Refresh();
+                    if (sameColors(colorDialog.Color, this.user.Text) == false) // בדיקה בין טקסט לרקע
+                    {
+                        user.Text = colorDialog.Color;
+                        this.ForeColor = colorDialog.Color;
+                        parent.ForeColor = colorDialog.Color;
+                        this.Refresh();
+                        parent.Refresh();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Text and BG cannot be the same color");
+                    }
                 }
-                else
+            }
+            else
+            {
+                if (this.colorDialog.ShowDialog() == DialogResult.OK)
                 {
-                    MessageBox.Show("Text and BG cannot be the same color");
+                    if (sameColors(colorDialog.Color, this.admin.Text) == false) // בדיקה בין טקסט לרקע
+                    {
+                        admin.Text = colorDialog.Color;
+                        this.ForeColor = colorDialog.Color;
+                        parent.ForeColor = colorDialog.Color;
+                        this.Refresh();
+                        parent.Refresh();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Text and BG cannot be the same color");
+                    }
                 }
             }
         }

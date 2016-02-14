@@ -215,6 +215,7 @@ namespace SocialNetwork
             return list;
         }
 
+        //omer 13.2
         public List<Ticket> getAllTickets()
         {
             m_dbConnection = new SQLiteConnection(db_Address);
@@ -231,7 +232,7 @@ namespace SocialNetwork
                 String details = reader["details"].ToString();
                 String representative = reader["representative"].ToString();
                 String date = reader["date"].ToString();
-                Ticket ticket = new Ticket(username, details, representative, date);
+                Ticket ticket = new Ticket(id, username, details, representative, date);
                 tickets.Add(ticket);
             }
 
@@ -239,7 +240,7 @@ namespace SocialNetwork
             return tickets;
         }
 
-        
+
         public List<Message> getInbox(String username)
         {
             m_dbConnection = new SQLiteConnection(db_Address);
@@ -602,12 +603,12 @@ namespace SocialNetwork
             m_dbConnection = new SQLiteConnection(db_Address);
             m_dbConnection.Open();
             // טעות בשאילתה שנבעה מחוסר ברווחים
-            string sql = "UPDATE Users " +
-                            ",maritalStatus='" + ListDetails[4] + 
-                            "',dob='" + ListDetails[5] + "'" +
-                            ",city='" + ListDetails[6] + "'" +
-                            ",status='" + ListDetails[7] + 
-                            "',info='" + ListDetails[8] + "'" + 
+            string sql =    "UPDATE Users " +
+                            "SET maritalStatus='" + ListDetails[1] + "'" +  
+                            ",dob='" + ListDetails[2] + "'" +
+                            ",city='" + ListDetails[3] + "'" +
+                            ",status='" + ListDetails[4] + "'" +
+                            ",info='" + ListDetails[5] + "'" + 
                             " WHERE username LIKE '" + ListDetails[0] + "'"; //לשים יוזר באינדקס 0
             SQLiteCommand query = new SQLiteCommand(sql, m_dbConnection);
             query.ExecuteNonQuery();
@@ -671,7 +672,31 @@ namespace SocialNetwork
             SQLiteCommand query = new SQLiteCommand(sql, m_dbConnection);
             query.ExecuteNonQuery();
         }
-		
+
+        //omer 13.2
+        public void handleTicket(String representative, Ticket ticket)
+        {
+            m_dbConnection = new SQLiteConnection(db_Address);
+            m_dbConnection.Open();
+            string sql = "UPDATE Tickets " +
+                         "SET representative ='" + representative + "'" +
+                         "WHERE id = " + ticket.Id + " ;";
+            SQLiteCommand query = new SQLiteCommand(sql, m_dbConnection);
+            SQLiteDataReader reader = query.ExecuteReader();
+
+
+        }
+        //omer 13.2
+        public void finishTicket(String representative, Ticket ticket)
+        {
+            m_dbConnection = new SQLiteConnection(db_Address);
+            m_dbConnection.Open();
+            string sql = "DELETE from Tickets " +
+                         "WHERE id = " + ticket.Id + " ;";
+            SQLiteCommand query = new SQLiteCommand(sql, m_dbConnection);
+            SQLiteDataReader reader = query.ExecuteReader();
+        }
+
         public Memento createMemento()
         {
             //Console.WriteLine("Created a backup of all acounts, and the ticket box");

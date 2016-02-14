@@ -8,6 +8,6 @@ namespace SocialNetwork
 {
     interface IDisableAcc
     {
-        String disableAccount(String username);
+        void disableAccount(String username);
     }
 }

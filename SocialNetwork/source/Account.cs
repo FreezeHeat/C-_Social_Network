@@ -98,9 +98,9 @@ namespace SocialNetwork
         public virtual String changeDetails(String fname, String lname, String password ) // למי שלא הבין וירטואל זה בשביל שיהיה ניתן להוריש ולדרוס את המתודה במחלקות שירשו
         {
             // שינוי מקומי
-            Fname = fname;
-            Lname = lname;
-            Password = password;
+            Fname = StringChecks.doubleApostrophy(fname);
+            Lname = StringChecks.doubleApostrophy(lname);
+            Password = StringChecks.doubleApostrophy(password);
             List<String> list = new List<String>() { Username, fname, lname, password };
 
             // שינוי במסד הנתונים
@@ -150,10 +150,11 @@ namespace SocialNetwork
         {
             
 
-            if(database.checkIfUserExists(recipient) == false)
+            if(database.checkIfUserExists(StringChecks.doubleApostrophy(recipient)) == false)
             {
                 return "No such account";
             }
+
             String str = StringChecks.doubleApostrophy(message);
             Message msg = new Message(this.Username, str);
             database.AddMessage(msg, recipient);
@@ -161,8 +162,8 @@ namespace SocialNetwork
         }
 
         public String deleteMessage(int index)
-        { 
-            database.Inboxes.RemoveAt(index);
+        {
+            database.DeleteMessage(index);
             return "Message deleted";
         }
 

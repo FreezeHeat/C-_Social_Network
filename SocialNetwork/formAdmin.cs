@@ -17,16 +17,15 @@ namespace SocialNetwork
         private Admin admin;
         private DataGridViewRow dgvRow = new DataGridViewRow();
         private Database database = Database.getDatabase();
-        private List<Account> userslist;
+        private List<Account> userslist = Database.getDatabase().getAllAccounts();
 
-        public formAdmin(Account account, Home parent)
+        public formAdmin(Account account, Home parent) : base(account, parent)
         {
             InitializeComponent();
             admin = (Admin)account;
             this.parent = parent;
-
+            loadTable(admin);
         }
-
 
         private void loadTable(Admin admin)
         {
@@ -66,37 +65,40 @@ namespace SocialNetwork
           
         }
 
-        
+
 
         private void btnRemoveAccount_Click(object sender, EventArgs e)
         {
             int i = dgvManage.Rows[dgvManage.CurrentRow.Index].Index;
 
+            String username = dgvManage.Rows[i].Cells[2].Value.ToString();//neora
+
             if (i != this.index) //כשאר מנהל רוצה למחוק את עצמו
             {
                 if (dgvRow.Index > -1)
                 {
-                    database.Accounts.RemoveAt(i);
                     dgvManage.Rows.Remove(dgvRow);
                     dgvManage.Refresh();
+                    MessageBox.Show(admin.DeleteAccount(username));
                 }
             }
             else
             {
                 MessageBox.Show("You can't delete yourself...");
             }
-            
         }
+
         private void btnAddAdmin_Click(object sender, EventArgs e)
         {
-            formSignUp form = new formSignUp(this, index);
+            formSignUp form = new formSignUp(this, admin);
             form.adminScheme();
             this.Hide();
             form.Show();
         }
+
         private void btnAddTech_Click(object sender, EventArgs e)
         {
-            formSignUp form = new formSignUp(this, index);
+            formSignUp form = new formSignUp(this, admin);
             form.adminScheme();
             this.Hide();
             form.Show();
@@ -104,7 +106,7 @@ namespace SocialNetwork
 
         private void btnAddUser_Click(object sender, EventArgs e)
         {
-            formSignUp form = new formSignUp(this, index);
+            formSignUp form = new formSignUp(this, admin);
             form.adminScheme();
             this.Hide();
             form.Show();
@@ -112,10 +114,37 @@ namespace SocialNetwork
 
         private void btnDisableAccount_Click(object sender, EventArgs e)
         {
+            int i = dgvManage.Rows[dgvManage.CurrentRow.Index].Index;
 
+            String username = dgvManage.Rows[i].Cells[2].Value.ToString();//neora
+
+            if (i != this.index) //כשאר מנהל רוצה למחוק את עצמו
+            {
+                if (dgvRow.Index > -1)
+                {
+                    admin.disableAccount(username);
+                    dgvManage.Refresh();
+                    MessageBox.Show(username + " was disabled");
+                }
+            }
+            else
+            {
+                MessageBox.Show("You can't delete yourself...");
+            }
         }
 
-       
-        
+        protected override void btnSettings_Click(object sender, EventArgs e)
+        {
+            formSettingsAdmin form = new formSettingsAdmin(admin, this);
+            form.FormClosed += new FormClosedEventHandler(childClosed);
+            this.Hide();
+            form.Show();
+        }
+
+        private void childClosed(object sender, EventArgs e)
+        {
+            this.Show();
+        }
+
     }
 }

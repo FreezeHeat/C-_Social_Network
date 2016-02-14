@@ -29,9 +29,10 @@
         private void InitializeComponent()
         {
             this.dgvTicketBox = new System.Windows.Forms.DataGridView();
-            this.coldetails = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colUserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colRepresentive = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.coldetails = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colRepresentative = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ticketComboBox = new System.Windows.Forms.ComboBox();
             this.btnHandleTicket = new System.Windows.Forms.Button();
@@ -62,9 +63,10 @@
             this.dgvTicketBox.BackgroundColor = System.Drawing.Color.White;
             this.dgvTicketBox.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTicketBox.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.coldetails,
+            this.colId,
             this.colUserName,
-            this.colRepresentive,
+            this.coldetails,
+            this.colRepresentative,
             this.colDate});
             this.dgvTicketBox.Location = new System.Drawing.Point(-1, 36);
             this.dgvTicketBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -74,31 +76,41 @@
             this.dgvTicketBox.TabIndex = 1;
             this.dgvTicketBox.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Tickets_CellContentClick);
             // 
-            // coldetails
+            // colId
             // 
-            this.coldetails.HeaderText = "Details";
-            this.coldetails.Name = "coldetails";
+            this.colId.HeaderText = "Id";
+            this.colId.Name = "colId";
+            this.colId.ReadOnly = true;
             // 
             // colUserName
             // 
             this.colUserName.HeaderText = "userName";
             this.colUserName.Name = "colUserName";
+            this.colUserName.ReadOnly = true;
             // 
-            // colRepresentive
+            // coldetails
             // 
-            this.colRepresentive.HeaderText = "Representive";
-            this.colRepresentive.Name = "colRepresentive";
+            this.coldetails.HeaderText = "Details";
+            this.coldetails.Name = "coldetails";
+            this.coldetails.ReadOnly = true;
+            // 
+            // colRepresentative
+            // 
+            this.colRepresentative.HeaderText = "Representative";
+            this.colRepresentative.Name = "colRepresentative";
+            this.colRepresentative.ReadOnly = true;
             // 
             // colDate
             // 
             this.colDate.HeaderText = "Date";
             this.colDate.Name = "colDate";
+            this.colDate.ReadOnly = true;
             // 
             // ticketComboBox
             // 
             this.ticketComboBox.FormattingEnabled = true;
             this.ticketComboBox.Items.AddRange(new object[] {
-            "Open Ticket\t",
+            "Open",
             "My Tickets",
             "All Tickets"});
             this.ticketComboBox.Location = new System.Drawing.Point(248, 266);
@@ -117,6 +129,7 @@
             this.btnHandleTicket.TabIndex = 3;
             this.btnHandleTicket.Text = "HandleTicket";
             this.btnHandleTicket.UseVisualStyleBackColor = true;
+            this.btnHandleTicket.Click += new System.EventHandler(this.btnHandleTicket_Click);
             // 
             // btnFinishTicket
             // 
@@ -127,6 +140,7 @@
             this.btnFinishTicket.TabIndex = 4;
             this.btnFinishTicket.Text = "FinishTicket";
             this.btnFinishTicket.UseVisualStyleBackColor = true;
+            this.btnFinishTicket.Click += new System.EventHandler(this.btnFinishTicket_Click);
             // 
             // panel2
             // 
@@ -196,9 +210,10 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label labTicketBox;
         private System.Windows.Forms.Button btnManageUsers;
-        private System.Windows.Forms.DataGridViewTextBoxColumn coldetails;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colId;
         private System.Windows.Forms.DataGridViewTextBoxColumn colUserName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colRepresentive;
+        private System.Windows.Forms.DataGridViewTextBoxColumn coldetails;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colRepresentative;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDate;
     }
 }

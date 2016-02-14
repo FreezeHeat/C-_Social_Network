@@ -133,22 +133,20 @@ namespace SocialNetwork
         //}
         //}
         //neora
-        public String disableAccount(String username) // השבתת חשבון
+        public void disableAccount(String username) // השבתת חשבון
         {
             if (database.checkIfUserExists(username))
             {
                 database.disableAccount(username);
-                return "Succesful";
             }
-            else
-                return "unSuccesful";
+
             //int i = database.Accounts.FindIndex(account => account.Username == username);
             //database.disableAccount(i);
 
 
         }
         //neora
-        public String reEnableAccount(String username) // חידוש חשבון מושבת
+        public void reEnableAccount(String username) // חידוש חשבון מושבת
         {
 
             // int i = database.Accounts.FindIndex(account => account.Username == username);
@@ -156,22 +154,27 @@ namespace SocialNetwork
             if (database.checkIfUserExists(username))
             {
                 database.reEnableAccount(username);
-                return "Succesful";
             }
-            else
-                return "unSuccesful";
         }
 
-        public String resetPassword(String username) // איפוס סיסמא למשתמש//עמר
+        public void resetPassword(String username) // איפוס סיסמא למשתמש//עמר
         {
             if (database.checkIfUserExists(username))
             {
                 database.resetPassword(username);
-                return "Succesful";
             }
+        }
 
-            else
-                return "unSuccesful";
+        //omer 13.2
+        public void handleTicket(String representative, Ticket ticket)
+        {
+            database.handleTicket(representative, ticket);
+
+        }
+        public void finishTicket(String representative, Ticket ticket)
+        {
+            database.finishTicket(representative, ticket);
+
         }
     }
 

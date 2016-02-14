@@ -121,6 +121,7 @@
             this.btnPlaylist.TabIndex = 10;
             this.btnPlaylist.Text = "Music Playlist";
             this.btnPlaylist.UseVisualStyleBackColor = true;
+            this.btnPlaylist.Click += new System.EventHandler(this.btnPlaylist_Click);
             // 
             // btnSendTicket
             // 
