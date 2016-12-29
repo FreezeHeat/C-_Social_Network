@@ -8,10 +8,10 @@ namespace SocialNetwork
 {
     public sealed class Post
     {
-        private int id; // מספר סידורי
-        private String source; // מפיץ הפוסט
-        private String content; // תוכן הפוסט
-        private DateTime date;  // תאריך הפצה
+        private int id; 
+        private String source; 
+        private String content; 
+        private DateTime date;  
 
         public Post (int id, String source, String post)
         {

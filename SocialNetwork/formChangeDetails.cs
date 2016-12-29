@@ -15,7 +15,7 @@ namespace SocialNetwork
         protected int index;
         private Account account;
 
-        private formChangeDetails()
+        public formChangeDetails()
         {
             InitializeComponent();
         }
@@ -32,10 +32,10 @@ namespace SocialNetwork
             
         }
 
-        //protected virtual void btnConfirm_Click(object sender, EventArgs e)
-        //{
+        
+        
 
-        //}
+        
 
         protected virtual void resetValidLables()
         {
@@ -58,9 +58,9 @@ namespace SocialNetwork
 
         protected virtual void btnConfirm_Click_1(object sender, EventArgs e)
         {
-            resetValidLables(); // להחביא ליבלים
+            resetValidLables(); 
 
-            bool valid = true; // לבדיקה
+            bool valid = true; 
             String result;
             String[] values = new String[3];
             String[] originalValues =
@@ -108,7 +108,7 @@ namespace SocialNetwork
             else {
                 for (int i = 0; i < values.Length; i++)
                 {
-                    // בדיקה של כל נתון יחסית למקורי
+                    
                     if (values[i] == null || values[i] == "")
                     {
                         values[i] = originalValues[i];

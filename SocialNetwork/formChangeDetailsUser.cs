@@ -16,15 +16,17 @@ namespace SocialNetwork
         private String[] maritalStatuses = new String[] { "Single", "Married", "Married with children" };
         private Database database = Database.getDatabase();
 
-        public formChangeDetailsUser(User user): base(user)
+        public formChangeDetailsUser(User user)
         {
             this.user = user;
             InitializeComponent();
+            resetValidLables();
+            loadUserDetails();
         }
 
         private void formChangeDetailsUser_Load(object sender, EventArgs e)
         {
-            resetValidLables(); // לאתחל לייבלים
+            resetValidLables(); 
             cbMaritalStatus.Items.AddRange(maritalStatuses);
         }
 
@@ -61,9 +63,9 @@ namespace SocialNetwork
 
         protected override void btnConfirm_Click_1(object sender, EventArgs e)
         {
-            resetValidLables(); // להחביא ליבלים
+            resetValidLables(); 
 
-            bool valid = true; // לבדיקה
+            bool valid = true; 
             String result;
             String[] values = new String[8];
             String[] originalValues =
@@ -157,7 +159,7 @@ namespace SocialNetwork
             else {
                 for (int i = 0; i < values.Length; i++)
                 {
-                    // בדיקה של כל נתון יחסית למקורי
+                    
                     if (values[i] == null || values[i] == "")
                     {
                         values[i] = originalValues[i];

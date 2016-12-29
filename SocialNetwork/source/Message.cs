@@ -8,29 +8,18 @@ namespace SocialNetwork
 {
     public sealed class Message
     {
-        //private String recipient; // המשתמש שמקבל את הודעה
-        private int id; // מספר סידורי של ההודעה
-        private String sender; // המשתמש ששולח את ההודעה
-        private String mail; // ההודעה עצמה
-        private DateTime date; // זמן הודעה
-        private bool wasRead = false; // האם ההודעה נקראה או לא
         
-
-        // בנאים ומתודות כלליות
-        //public Message(int id, String sender, String mail)
-        //{
-        //    this.id = id;
-        //    Sender = sender;
-        //    //Recipient = recipient;
-        //    Mail = mail;
-        //    this.date = DateTime.Now;
-        //}
+        private int id; 
+        private String sender; 
+        private String mail; 
+        private DateTime date; 
+        private bool wasRead = false; 
 
         public Message(String sender, String mail)
         {
           
             Sender = sender;
-            //Recipient = recipient;
+            
             Mail = mail;
             this.date = DateTime.Now;
         }
@@ -39,22 +28,16 @@ namespace SocialNetwork
         {
             this.id = id;
             Sender = sender;
-            //Recipient = recipient;
+            
             Mail = mail;
 
-            String[] values = date.Split('/'); // פיצול המחרוזת והמרתם למספרים
+            String[] values = date.Split('/'); 
             int day = Int32.Parse(values[0]);
             int month = Int32.Parse(values[1]);
             int year = Int32.Parse(values[2]);
 
             this.date = new DateTime(year, month, day);
         }
-
-        //public String Recipient
-        //{
-        //    get { return this.recipient; }
-        //    set { this.recipient = value; }
-        //}
 
         public int ID
         {
@@ -82,17 +65,6 @@ namespace SocialNetwork
         {
             get { return this.wasRead; }
             set { this.wasRead = value; }
-        }
-        //public override string ToString()
-        //{
-        //    if (wasRead == true) // אם ההודעה נקראה, אז אין צורך בתוספת "חדש" למחרוזת
-        //        return Account + " at" + this.date.ToString() + " :\n" + Mail;
-
-        //    else
-        //    {
-        //        wasRead = true; // בגלל שנקראה ההודעה נגדיר אותה כך
-        //        return "**NEW**" + Account + " at " + this.date.ToString() + " :\n" + Mail;  // הוספת התראה להסבת תשומת הלב של המשתמש
-        //    }
-        //}
+        } 
     }
 }

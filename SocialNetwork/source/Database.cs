@@ -8,19 +8,18 @@ using System.IO;
 
 namespace SocialNetwork
 {
-    sealed class Database
+     sealed class Database
     {
-        private string db_Address = "Data Source=SocialNetwork.sqlite; Version=3; foreign keys=true;"; // חייב לתמוך במפתחות זרים
+        private string db_Address = "Data Source=SocialNetwork.sqlite; Version=3; foreign keys=true;"; 
         private SQLiteConnection m_dbConnection;
 
-        private List<Account> accounts = new List<Account>(); // משתמשים
-        private List<Ticket> ticketBox = new List<Ticket>(); // תיבת פניות
-        private List<Message> inboxes = new List<Message>(); // תיבות מייל
-        private List<Post> postList = new List<Post>(); // פוסטים
-        private Caretaker backupManager = new Caretaker(); // מנהל גיבוי
-        private static Database database = new Database(); // מופע יחיד
+        
+        
+        
+        
+        private static Database database = new Database(); 
 
-        // בנאי פרטי - שלא תהיה אפשרות לאתחל בחוץ
+        
         private Database()
         {
             if (File.Exists("SocialNetwork.sqlite"))
@@ -97,44 +96,23 @@ namespace SocialNetwork
         {
             return database;
         }
-
-        public List<Account> Accounts 
-        {
-            get{ return accounts; }
-        }
-
-        public List<Ticket> TicketBox 
-        {
-            get { return ticketBox; }
-        }
-
-        public List<Message> Inboxes
-        {
-            get { return inboxes; }
-        }
-
-        public List<Post> PostList
-        {
-            get { return postList; }
-        }
-
-
+        
         public List<Account> getAllAccounts()
         {
             m_dbConnection = new SQLiteConnection(db_Address);
             m_dbConnection.Open();
             string sql = "SELECT * FROM Accounts";
 
-            // שאילתה כללית לכל המשתמשים
+            
             SQLiteCommand query = new SQLiteCommand(sql, m_dbConnection);
 
-            // שאילתה לכל סוג משתמש
+            
             SQLiteCommand querySpecific = new SQLiteCommand(sql, m_dbConnection);
 
-            // קורא לשאילתה כללית
+            
             SQLiteDataReader reader = query.ExecuteReader();
 
-            // קורא לשאילתה ספציפית
+            
             SQLiteDataReader readerSpecific;
 
             List<Account> list = new List<Account>();
@@ -215,7 +193,7 @@ namespace SocialNetwork
             return list;
         }
 
-        //omer 13.2
+        
         public List<Ticket> getAllTickets()
         {
             m_dbConnection = new SQLiteConnection(db_Address);
@@ -400,6 +378,11 @@ namespace SocialNetwork
                          "'" + user.City + "'," +
                          "'" + user.Info + "'," +
                          "'" + user.Status + "'" +
+                         ");" +
+                         "INSERT INTO Colors(username, bgColor, fgColor) VALUES(" +
+                         "'" + user.Username + "', " +
+                         "0, " +
+                         "0" +
                          ");";
             SQLiteCommand query = new SQLiteCommand(sql, m_dbConnection);
             query.ExecuteNonQuery();
@@ -434,6 +417,11 @@ namespace SocialNetwork
                          "'" + admin.Lname + "'," +
                          "'" + admin.Password + "'," +
                          "2," +
+                         "0" +
+                         ");" +
+                         "INSERT INTO Colors(username, bgColor, fgColor) VALUES(" +
+                         "'" + admin.Username + "', " +
+                         "0, " +
                          "0" +
                          ");";
             SQLiteCommand query = new SQLiteCommand(sql, m_dbConnection);
@@ -587,7 +575,7 @@ namespace SocialNetwork
         }
 
 		
-		public void resetPassword(String username)//עמר
+		public void resetPassword(String username)
         {
             m_dbConnection = new SQLiteConnection(db_Address);
             m_dbConnection.Open();
@@ -598,18 +586,18 @@ namespace SocialNetwork
             query.ExecuteNonQuery();
         }
 		
-		 public void changeUserDetails(List<String> ListDetails)//omer
+		 public void changeUserDetails(List<String> ListDetails)
         {
             m_dbConnection = new SQLiteConnection(db_Address);
             m_dbConnection.Open();
-            // טעות בשאילתה שנבעה מחוסר ברווחים
+            
             string sql =    "UPDATE Users " +
                             "SET maritalStatus='" + ListDetails[1] + "'" +  
                             ",dob='" + ListDetails[2] + "'" +
                             ",city='" + ListDetails[3] + "'" +
                             ",status='" + ListDetails[4] + "'" +
                             ",info='" + ListDetails[5] + "'" + 
-                            " WHERE username LIKE '" + ListDetails[0] + "'"; //לשים יוזר באינדקס 0
+                            " WHERE username LIKE '" + ListDetails[0] + "'"; 
             SQLiteCommand query = new SQLiteCommand(sql, m_dbConnection);
             query.ExecuteNonQuery();
         }
@@ -652,8 +640,9 @@ namespace SocialNetwork
             if (reader.Read())
             {
                 int [] colors = new int[2];
-                colors[0] = Int32.Parse(reader["bgColor"].ToString());
-                colors[1] = Int32.Parse(reader["fgColor"].ToString());
+                colors[0] = (reader["bgColor"].ToString() == null) ? 0 : Int32.Parse(reader["bgColor"].ToString());
+                colors[1] = (reader["fgColor"].ToString() == null) ? 0 : Int32.Parse(reader["fgColor"].ToString());
+                reader.Close();
                 return colors;
             }
 
@@ -673,7 +662,7 @@ namespace SocialNetwork
             query.ExecuteNonQuery();
         }
 
-        //omer 13.2
+        
         public void handleTicket(String representative, Ticket ticket)
         {
             m_dbConnection = new SQLiteConnection(db_Address);
@@ -682,11 +671,9 @@ namespace SocialNetwork
                          "SET representative ='" + representative + "'" +
                          "WHERE id = " + ticket.Id + " ;";
             SQLiteCommand query = new SQLiteCommand(sql, m_dbConnection);
-            SQLiteDataReader reader = query.ExecuteReader();
-
-
+            query.ExecuteReader();
         }
-        //omer 13.2
+        
         public void finishTicket(String representative, Ticket ticket)
         {
             m_dbConnection = new SQLiteConnection(db_Address);
@@ -694,40 +681,40 @@ namespace SocialNetwork
             string sql = "DELETE from Tickets " +
                          "WHERE id = " + ticket.Id + " ;";
             SQLiteCommand query = new SQLiteCommand(sql, m_dbConnection);
-            SQLiteDataReader reader = query.ExecuteReader();
+            query.ExecuteReader();
         }
 
-        public Memento createMemento()
-        {
-            //Console.WriteLine("Created a backup of all acounts, and the ticket box");
-            return (new Memento(accounts, ticketBox, inboxes, postList));
-        }
+        
+        
+        
+        
+        
 
-        public void setMemento(Memento memento)
-        {
-            //Console.WriteLine("Are you sure you want to restore this backup:");
-            //Console.WriteLine("Created in: " + memento.BackupTime.ToString());
-            //Console.WriteLine("Enter 'yes' if you wish to continue, anything else will cancel this action");
-            //String input = Console.ReadLine();
+        
+        
+        
+        
+        
+        
 
-            //if (input == "yes")
-            //{
-            accounts.Clear(); // ניקוי הרשימה
-            accounts = new List<Account>(memento.Accounts); // יישום גיבוי
+        
+        
+        
+        
 
-            inboxes.Clear();
-            inboxes = new List<Message>(memento.Inboxes);
+        
+        
 
-            ticketBox.Clear();
-            ticketBox = new List<Ticket>(memento.TicketBox);
+        
+        
 
-            postList.Clear();
-            postList = new List<Post>(memento.PostList);
+        
+        
 
 
-                //Console.WriteLine("Backup is successful!");
+        
 
-            //else { Console.WriteLine("Backup cancelled!"); }
-        }
+        
+        
     }
 }

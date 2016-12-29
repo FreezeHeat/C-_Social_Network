@@ -36,7 +36,7 @@ namespace SocialNetwork
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            if (close) // אם רוצים לחזור לחלון הבית
+            if (close) 
             {
                 parent.Show();
             }
@@ -55,22 +55,22 @@ namespace SocialNetwork
             String username = txtUsername.Text;
             String password = txtPassword.Text;
 
-            // בדיקה שהמשתמש שהוקלד אכן קיים במסד הנתונים
+            
 
 
-            // לא קיים המשתמש
+            
             if (database.checkIfUserExists(username) == false)
             {
                 MessageBox.Show("Wrong Account Details");
                 if (count++ == 3)
-                { // סכום את מספר הנסיונות הכושלים
+                { 
                     MessageBox.Show("Too many attempts");
                     this.Close();
                 }
             }
             else
             {
-                // התחברות
+                
                 Account account = database.Login(username, password);
 
                 if (account == null)
@@ -80,36 +80,34 @@ namespace SocialNetwork
 
                 else
                 {
-                    // אם המשתמש מושבת
+                    
                     if (account.Disabled == true)
                     {
-                        //this.closeSwitch(false);
-                        //formDisabled disabled = new formDisabled(index, parent);
-                        MessageBox.Show("Disabled");
+                        formDisabled disabled = new formDisabled(account, parent);
                     }
                     else {
-                        switch (account.Permission) //סוויצ' לפי הרשאה לפי האינדקס של אותו משתמש שנמצא קודם לכן
+                        switch (account.Permission) 
                         {
                             case 0:
                                 close = false;
                                 this.Close();
-                                formUser user = new formUser(account, parent); // תפריט למשתמש רגיל
+                                formUser user = new formUser(account, parent); 
                                 user.Show();
                                 break;
                             case 1:
                                 close = false;
                                 this.Close();
-                                formTechSupport tech = new formTechSupport(account, parent); // תפריט למשתמש תמיכה טכנית change omer
+                                formTechSupport tech = new formTechSupport(account, parent); 
                                 tech.Show();
                                 break;
                             case 2:
                                 close = false;
                                 this.Close();
-                                formAdmin admin = new formAdmin(account, parent); // תפריט  מנהל
+                                formAdmin admin = new formAdmin(account, parent); 
                                 admin.Show();
                                 break;
                             default:
-                                MessageBox.Show("Error - account permission unknown"); // מקרה קצה חריג שבו לא הוגדרה הרשאה למשתמש
+                                MessageBox.Show("Error - account permission unknown"); 
                                 close = false;
                                 this.Close();
                                 break;

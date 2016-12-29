@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 namespace SocialNetwork
 {
     public sealed class Ticket
-    {//omer 13.2
-        private String username; // שם משתמש ששלח את הפנייה
-        private String details; // הפנייה עצמה
-        private String representative; // נציג תמיכה שמטפל בפנייה
-        private String date; // תאריך פנייה
+    {
+        private String username; 
+        private String details; 
+        private String representative; 
+        private String date; 
         private int id;
 
         public Ticket(String username, String details)
@@ -19,9 +19,9 @@ namespace SocialNetwork
             Username = username;
             Details = details;
             Representative = null;
-            this.date = DateTime.Now.ToShortDateString(); // מכניס את התאריך והזמן בה נשלחה הפנייה
+            this.date = DateTime.Now.ToShortDateString(); 
         }
-        //omer 13.2
+        
         public Ticket(int id, String username, String details, String representative, String date)
         {
             Username = username;
@@ -29,12 +29,6 @@ namespace SocialNetwork
             Representative = representative;
             this.date = date;
             Id = id;
-            //String[] values = date.Split('/'); // פיצול המחרוזת והמרתם למספרים
-            //int day = Int32.Parse(values[0]);
-            //int month = Int32.Parse(values[1]);
-            //int year = Int32.Parse(values[2]);
-
-            //this.date = new DateTime(year, month, day);
         }
 
         //omer 13.2
@@ -68,9 +62,9 @@ namespace SocialNetwork
 
         public override string ToString()
         {
-            if (this.Representative == null) // אם לא בטיפול
-                return "Recived in: " + Date + "\nBy: " + Username + "\tHandled by: none\n" + "Details: " + Details; // פרטי פנייה
-            else // אם כן בטיפול
+            if (this.Representative == null) 
+                return "Recived in: " + Date + "\nBy: " + Username + "\tHandled by: none\n" + "Details: " + Details; 
+            else 
             {
                 return "Recived in: " + Date + "\nBy: " + Username + "\tHandled by: " + Representative + "\n" + "Details: " + Details;
             }

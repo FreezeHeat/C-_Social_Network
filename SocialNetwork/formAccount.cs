@@ -41,7 +41,7 @@ namespace SocialNetwork
 
         protected void gridInbox_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            // הצגת ההודעה
+            
             MessageBox.Show(gridInbox.Rows[gridInbox.CurrentRow.Index].Cells["Message"].Value.ToString());
         }
 
@@ -109,8 +109,7 @@ namespace SocialNetwork
 
         protected void resetInbox()
         {
-            this.gridInbox.Rows.Clear(); // טעינת ההודעות של המשתמש לחלון
-            List<Message> messages = database.getInbox(this.account.Username);
+            this.gridInbox.Rows.Clear();             List<Message> messages = database.getInbox(this.account.Username);
 
             foreach (Message msg in messages)
             {

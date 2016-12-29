@@ -24,7 +24,6 @@ namespace SocialNetwork
             }
         }
 
-
         private void axWindowsMediaPlayer_Enter(object sender, EventArgs e)
         {
             axWindowsMediaPlayer.Ctlcontrols.play();
@@ -34,13 +33,7 @@ namespace SocialNetwork
             axWindowsMediaPlayer.Ctlcontrols.previous();
             axWindowsMediaPlayer.Ctlcontrols.fastForward();
             axWindowsMediaPlayer.Ctlcontrols.fastReverse();
-
-
-
-
         }
-
-
 
         private void songsBox_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {

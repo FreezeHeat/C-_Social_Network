@@ -17,7 +17,7 @@ namespace SocialNetwork
         private Admin admin;
         private DataGridViewRow dgvRow = new DataGridViewRow();
         private Database database = Database.getDatabase();
-        private List<Account> userslist = Database.getDatabase().getAllAccounts();
+        private List<Account> userslist;
 
         public formAdmin(Account account, Home parent) : base(account, parent)
         {
@@ -25,15 +25,29 @@ namespace SocialNetwork
             admin = (Admin)account;
             this.parent = parent;
             loadTable(admin);
+
+            if (admin.Text.ToArgb() != 0 || admin.BG.ToArgb() != 0) 
+            {
+                this.ForeColor = admin.Text;
+                this.BackColor = admin.BG;
+            }
         }
 
         private void loadTable(Admin admin)
         {
-            for (int i = 0; i < userslist.Count; i++)//מילוי הטבלה בערכים חוץ מהנציג הנוכחי
+            dgvManage.Rows.Clear();
+            userslist = database.getAllAccounts();
+
+            for (int i = 0; i < userslist.Count; i++)
             {
-                string[] row = new string[] { userslist[i].Fname, userslist[i].Lname, userslist[i].Username };
-                    dgvManage.Rows.Add(row);   
+                if (userslist[i].Username != admin.Username)
+                {
+                    string[] row = new string[] { userslist[i].Fname, userslist[i].Lname, userslist[i].Username };
+                    dgvManage.Rows.Add(row);  
+                } 
             }
+
+            dgvManage.Refresh();
         }
 
         private void formAdmin_Load(object sender, EventArgs e)
@@ -71,9 +85,9 @@ namespace SocialNetwork
         {
             int i = dgvManage.Rows[dgvManage.CurrentRow.Index].Index;
 
-            String username = dgvManage.Rows[i].Cells[2].Value.ToString();//neora
+            String username = dgvManage.Rows[i].Cells[2].Value.ToString();
 
-            if (i != this.index) //כשאר מנהל רוצה למחוק את עצמו
+            if (admin.Username != username) 
             {
                 if (dgvRow.Index > -1)
                 {
@@ -90,24 +104,24 @@ namespace SocialNetwork
 
         private void btnAddAdmin_Click(object sender, EventArgs e)
         {
-            formSignUp form = new formSignUp(this, admin);
-            form.adminScheme();
+            formSignUp form = new formSignUp(this, admin, (int)Program.permissionLevels.Admin);
+            form.FormClosed += new FormClosedEventHandler(childClosed);
             this.Hide();
             form.Show();
         }
 
         private void btnAddTech_Click(object sender, EventArgs e)
         {
-            formSignUp form = new formSignUp(this, admin);
-            form.adminScheme();
+            formSignUp form = new formSignUp(this, admin, (int)Program.permissionLevels.TechSupport);
+            form.FormClosed += new FormClosedEventHandler(childClosed);
             this.Hide();
             form.Show();
         }
 
         private void btnAddUser_Click(object sender, EventArgs e)
         {
-            formSignUp form = new formSignUp(this, admin);
-            form.adminScheme();
+            formSignUp form = new formSignUp(this, admin, (int)Program.permissionLevels.User);
+            form.FormClosed += new FormClosedEventHandler(childClosed);
             this.Hide();
             form.Show();
         }
@@ -116,9 +130,9 @@ namespace SocialNetwork
         {
             int i = dgvManage.Rows[dgvManage.CurrentRow.Index].Index;
 
-            String username = dgvManage.Rows[i].Cells[2].Value.ToString();//neora
+            String username = dgvManage.Rows[i].Cells[2].Value.ToString();
 
-            if (i != this.index) //כשאר מנהל רוצה למחוק את עצמו
+            if (admin.Username != username) 
             {
                 if (dgvRow.Index > -1)
                 {
@@ -129,7 +143,7 @@ namespace SocialNetwork
             }
             else
             {
-                MessageBox.Show("You can't delete yourself...");
+                MessageBox.Show("You can't disable yourself...");
             }
         }
 
@@ -144,6 +158,25 @@ namespace SocialNetwork
         private void childClosed(object sender, EventArgs e)
         {
             this.Show();
+            loadTable(admin);
+        }
+
+        
+        private void button1_Click(object sender, EventArgs e)
+        {
+            int i = dgvManage.Rows[dgvManage.CurrentRow.Index].Index;
+
+            String username = dgvManage.Rows[i].Cells[2].Value.ToString();
+
+            if (admin.Username != username) 
+            {
+                if (dgvRow.Index > -1)
+                {
+                    admin.reEnableAccount(username);
+                    dgvManage.Refresh();
+                    MessageBox.Show(username + " was re-enabled");
+                }
+            }
         }
 
     }

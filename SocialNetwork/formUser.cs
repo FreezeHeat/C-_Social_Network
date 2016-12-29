@@ -17,17 +17,17 @@ namespace SocialNetwork
         private Home parent;
         private Database database = Database.getDatabase();
         private List<Post> posts;
-        private List<Post> targetPosts; // פוסטים של מישהו אחר (לצפייה
-        private int yourPostLocation; // מונה פוסטים שלך
-        private int elsePostLocation; // מונה פוסטים של משתמש אחר
-        private bool yourPosts = true; // אמת כאשר מונה הפוסטים הוא של המשתמש 
+        private List<Post> targetPosts; 
+        private int yourPostLocation; 
+        private int elsePostLocation; 
+        private bool yourPosts = true; 
         
         public formUser(Account account, Home parent) : base(account, parent)
         {
             InitializeComponent();
             user = (User)account;
 
-            if (user.Text != null || user.BG != null) // יישום צבעי רקע וטקסט
+            if (user.Text.ToArgb() != 0 || user.BG.ToArgb() != 0) /* Implement the user's Text and BG color*/
             {
                 this.ForeColor = user.Text;
                 this.BackColor = user.BG;
@@ -41,34 +41,34 @@ namespace SocialNetwork
         private void formUser_Load(object sender, EventArgs e)
         {
             this.txtStatus.Text = user.Status;
-            txtPost.Text = ""; // אתחול לפני הכנסה
+            txtPost.Text = ""; 
             if (yourPostLocation >= 0)
-            { // אם יש פוסטים
-                txtPost.Text = posts[posts.Count - 1].ToString(); // פוסט אחרון
+            { /* If there are posts*/
+                txtPost.Text = posts[posts.Count - 1].ToString(); /* Latest post */
             }
-            this.txtPost.ReadOnly = true; // פוסט לקריאה בלבד
+            this.txtPost.ReadOnly = true; /* Make it read-only */
             this.Refresh();
         }
 
-        //protected override void formAccount_Load(object sender, EventArgs e)
-        //{
+        
+        
             
-        //}
+        
 
-        protected override void btnSend_Click(object sender, EventArgs e) // שליחת הודעה
+        protected override void btnSend_Click(object sender, EventArgs e) 
         {
 
 
-            //if (database.checkIfUserExists(txtRecipient.Text) == true)
-            //{
-            //    Message msg = new Message(user.Username, txtSend.Text);
-            //    database.AddMessage(msg, txtRecipient.Text);
-            //    MessageBox.Show("Sent successfully!");
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Wrong username...");
-            //}
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             String result = user.sendMessage(txtRecipient.Text, txtSend.Text);
             MessageBox.Show(result);
         }
@@ -123,7 +123,7 @@ namespace SocialNetwork
 
         private void btnUpdateStatus_Click(object sender, EventArgs e)
         {
-            // מספיק שיש משהו שאפשר לקרוא 
+            
             if (this.txtStatus.Text.Any(Char.IsLetterOrDigit) == true)
             {
                 MessageBox.Show(user.updateStatus(txtStatus.Text));
@@ -133,22 +133,22 @@ namespace SocialNetwork
 
         private void btnNewPost_Click(object sender, EventArgs e)
         {
-            txtPost.ReadOnly = false; // פתוח לכתיבה
+            txtPost.ReadOnly = false; 
             txtPost.Text = "Please enter your new post";
             txtPost.Focus();
-            txtPost.Leave += TxtPost_Leave;// מטפל במצב שבו המשתמש לחץ על פוסט חדש ולא עשה כלום
+            txtPost.Leave += TxtPost_Leave; /* in a situation where the user posts a new post and didn't do anything*/
         }
 
         private void TxtPost_Leave(object sender, EventArgs e)
         {
             String result = user.checkPost(txtPost.Text);
-            if (result != null) // אם לא נכתב משהו 
+            if (result != null) 
             {
                 MessageBox.Show(result);
                 txtPost.Focus();
             }
 
-            else // אם הכל תקין
+            else 
             {
                 DialogResult = MessageBox.Show("Confirm Your Post", "Confirm Dialog", MessageBoxButtons.OKCancel);
 
@@ -238,12 +238,12 @@ namespace SocialNetwork
 
         private void btnGetPost_Click(object sender, EventArgs e)
         {
-            if (database.checkIfUserExists(this.txtTargetUsername.Text) == true) // שקיים המשתמש
+            if (database.checkIfUserExists(this.txtTargetUsername.Text) == true) 
             {
-                if (database.checkPermission(this.txtTargetUsername.Text) != null) // בדיקת רשות
+                if (database.checkPermission(this.txtTargetUsername.Text) != null) 
                 {
                     this.yourPosts = false;
-                    this.targetPosts = database.getAllPosts(this.txtTargetUsername.Text); // שמור את הרשימה של המשתמש האחר
+                    this.targetPosts = database.getAllPosts(this.txtTargetUsername.Text); 
                     this.elsePostLocation = this.targetPosts.Count - 1;
                     if (this.elsePostLocation >= 0) { this.refreshPost(); }
                     else { MessageBox.Show("This user has no posts..."); }
@@ -259,10 +259,14 @@ namespace SocialNetwork
         private void btnRestoreYourPosts_Click(object sender, EventArgs e)
         {
             this.yourPosts = true;
+            if(posts.Count <= 0)
+            {
+                MessageBox.Show("You have no posts...");
+            }
             this.refreshPost();
         }
 
-        private void refreshPost() // רענון פוסטים
+        private void refreshPost() 
         {
 
             if (this.yourPosts == true && this.yourPostLocation >= 0) {
@@ -299,10 +303,10 @@ namespace SocialNetwork
             }
             else if (this.yourPostLocation >= 0)
             {
-                // מחיקה במסד נתונים
+                
                 database.RemovePost(this.posts[this.yourPostLocation].ID);
 
-                // מחיקה מקומית
+                
                 this.posts.RemoveAt(this.yourPostLocation);
                 this.yourPostLocation--;
                 this.refreshPost();
@@ -331,7 +335,7 @@ namespace SocialNetwork
             mp3.Show();
         }
 
-        public void reset() // איפוס ערכים
+        public void reset() 
         {
             this.database = Database.getDatabase();
             this.posts = database.getAllPosts(user.Username);
@@ -341,35 +345,13 @@ namespace SocialNetwork
             this.yourPosts = true;
             this.refreshPost();
 
-            if (user.Text != null || user.BG != null) // יישום צבעי רקע וטקסט
+            if (user.Text.ToArgb() != 0 || user.BG.ToArgb() != 0) 
             {
                 this.ForeColor = user.Text;
                 this.BackColor = user.BG;
             }
             this.Refresh();
         }
-
-        //protected override void gridInbox_KeyDown(object sender, KeyEventArgs e)
-        //{
-        //    if (this.gridInbox.RowCount > 0)
-        //    {
-        //        if (e.KeyValue == (char)Keys.Delete)
-        //        {
-        //            DialogResult result = MessageBox.Show("Are you sure you want to delete this message?",
-        //                "Delete Message", MessageBoxButtons.YesNo);
-
-        //            if (result == DialogResult.Yes)
-        //            {
-        //                int index = Int32.Parse(gridInbox.Rows[gridInbox.CurrentRow.Index].Cells["ID"].Value.ToString());
-        //                database.DeleteMessage(index);
-        //                resetInbox();
-        //                MessageBox.Show("Deleted Succesfully!");
-        //                gridInbox.Refresh();
-        //                e.Handled = true;
-        //            }
-        //        }
-        //    }
-        //}
 
         private void btnGetUserInfo_Click(object sender, EventArgs e)
         {

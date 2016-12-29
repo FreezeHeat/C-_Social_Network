@@ -45,11 +45,11 @@ namespace SocialNetwork
                 this.user = (User)account;
                 this.defaultText = this.parent.ForeColor;
                 this.defaultBG = this.parent.BackColor;
-                if (user.BG == null)
+                if (user.BG.ToArgb() == 0)
                 {
                     user.BG = defaultBG;
                 }
-                if (user.Text == null)
+                if (user.Text.ToArgb() == 0)
                 {
                     user.Text = defaultText;
                 }
@@ -67,7 +67,7 @@ namespace SocialNetwork
             {
                 if (this.colorDialog.ShowDialog() == DialogResult.OK)
                 {
-                    if (sameColors(colorDialog.Color, this.user.Text) == false) // בדיקה בין טקסט לרקע
+                    if (sameColors(colorDialog.Color, this.user.BG) == false) 
                     {
                         user.Text = colorDialog.Color;
                         this.ForeColor = colorDialog.Color;
@@ -85,7 +85,7 @@ namespace SocialNetwork
             {
                 if (this.colorDialog.ShowDialog() == DialogResult.OK)
                 {
-                    if (sameColors(colorDialog.Color, this.admin.Text) == false) // בדיקה בין טקסט לרקע
+                    if (sameColors(colorDialog.Color, this.admin.Text) == false) 
                     {
                         admin.Text = colorDialog.Color;
                         this.ForeColor = colorDialog.Color;
@@ -103,26 +103,48 @@ namespace SocialNetwork
 
         private void btnBackgroundColor_Click(object sender, EventArgs e)
         {
-            if (colorDialog.ShowDialog() == DialogResult.OK)
+            if (admin == null)
             {
-                if (sameColors(colorDialog.Color, this.user.BG) == false)// בדיקה בין טקסט לרקע
+                if (colorDialog.ShowDialog() == DialogResult.OK)
                 {
-                    user.BG = colorDialog.Color;
-                    this.BackColor = colorDialog.Color;
-                    parent.BackColor = colorDialog.Color;
-                    this.Refresh();
-                    parent.Refresh();
+                    if (sameColors(colorDialog.Color, this.user.Text) == false)
+                    {
+                        user.BG = colorDialog.Color;
+                        this.BackColor = colorDialog.Color;
+                        parent.BackColor = colorDialog.Color;
+                        this.Refresh();
+                        parent.Refresh();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Text and BG cannot be the same color");
+                    }
                 }
-                else
+            }
+
+            else
+            {
+                if (colorDialog.ShowDialog() == DialogResult.OK)
                 {
-                    MessageBox.Show("Text and BG cannot be the same color");
+                    if (sameColors(colorDialog.Color, this.admin.Text) == false)
+                    {
+                        admin.BG = colorDialog.Color;
+                        this.BackColor = colorDialog.Color;
+                        parent.BackColor = colorDialog.Color;
+                        this.Refresh();
+                        parent.Refresh();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Text and BG cannot be the same color");
+                    }
                 }
             }
         }
 
         private bool sameColors(Color a, Color b)
         {
-            if(a.Equals(b)) // אם אותם הצבעים, תחזיר לברירת  מחדל
+            if(a.Equals(b)) 
             {
                 return true;
             }
@@ -134,6 +156,14 @@ namespace SocialNetwork
 
         protected override void OnClosing(CancelEventArgs e)
         {
+            if (admin == null)
+            {
+                user.changeColors(user.Text, user.BG);
+            }
+            else
+            {
+                admin.changeColors(admin.Text, admin.BG);
+            }
             parent.Show();
         }
     }

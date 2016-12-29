@@ -38,7 +38,7 @@ namespace SocialNetwork
         private void btnCustomizeWindow_Click(object sender, EventArgs e)
         {
             formCustomizeWindow customize = new formCustomizeWindow(user, this.parent);
-            //customize.FormClosed += new 
+            
             this.Hide();
         }
 
@@ -58,37 +58,5 @@ namespace SocialNetwork
                 parent.Close();
             }
         }
-
-        //private void btnBackupPosts_Click(object sender, EventArgs e)
-        //{
-        //    if (user.posts.Posts.Count > 0)
-        //    {
-        //        user.posts.createBackup();
-        //        MessageBox.Show("Backup is complete");
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Nothing to backup (No posts)");
-        //    }
-        //}
-
-        //private void btnRestorePosts_Click(object sender, EventArgs e)
-        //{
-        //    if(user.posts.Backup == null)
-        //    {
-        //        MessageBox.Show("No backup available");
-        //    }
-        //    else { 
-        //    DialogResult result = MessageBox.Show("Are you sure you want to restore backup from:\r\n" +
-        //        user.posts.BackupTime, "Confirm Restore", MessageBoxButtons.YesNo);
-
-        //        if (result == DialogResult.Yes)
-        //        {
-        //            user.posts.restoreBackup();
-        //            MessageBox.Show("Restore Complete");
-        //            parent.reset();
-        //        }
-        //    }
-        //}
     }
 }

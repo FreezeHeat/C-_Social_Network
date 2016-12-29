@@ -10,20 +10,20 @@ namespace SocialNetwork
 {
     public sealed class User : Account, ICustomizeForm
     {
-        private Database database = Database.getDatabase(); // מסד נתונים
-        private String maritalStatus; // סטאטוס משפחתי
-        private int age = -1; // גיל
-        private DateTime dob; // תאריך לידה
-        private String city; // עיר מגורים
-        private String status; // סטאטוס כללי של החשבון
-        private String info; // מידע כללי
-        private Color text;// צבע טקסט
-        private Color bg ; // צבע רקע
+        private Database database = Database.getDatabase(); 
+        private String maritalStatus; 
+        private int age = -1; 
+        private DateTime dob; 
+        private String city; 
+        private String status; 
+        private String info; 
+        private Color text;
+        private Color bg ; 
 
-        // בנאי מלא כולל שדות האב
+        
         public User(String username, String fname, String lname, String password,
                     String maritalStatus, String dob, String city, String info, String status)
-                    : base(username, fname, lname, password, (int)Program.permissionLevels.User) // שדות אב שיורשים
+                    : base(username, fname, lname, password, (int)Program.permissionLevels.User) 
         {
             MaritalStatus = maritalStatus;
             Dob = dob;
@@ -41,7 +41,7 @@ namespace SocialNetwork
 
         public User(String username, String fname, String lname, String password, bool disabled,
                     String maritalStatus, String dob, String city, String info, String status)
-                    : base(username, fname, lname, password, (int)Program.permissionLevels.User, disabled) // שדות אב שיורשים
+                    : base(username, fname, lname, password, (int)Program.permissionLevels.User, disabled) 
         {
             MaritalStatus = maritalStatus;
             Dob = dob;
@@ -58,8 +58,8 @@ namespace SocialNetwork
         }
 
 
-        // מתודות כלליות
-        // get, set, הדפסת פרטים
+        
+        
 
         public String MaritalStatus //סטאטוס משפחתי 
         {
@@ -67,41 +67,41 @@ namespace SocialNetwork
             set { this.maritalStatus = value; }
         }
 
-        public int Age // גיל
+        public int Age 
         {
             get { return this.age; }
             set { this.age = value; }
         }
 
-        public String Dob // תאריך לידה
+        public String Dob 
         {
-            get { return this.dob.ToString("dd/MM/yyyy"); } // מחזיר תאריך בפורמט
+            get { return this.dob.ToString("dd/MM/yyyy"); } /* Return in this date format*/
             set
             {
-                String[] values = value.Split('/'); // פיצול המחרוזת והמרתם למספרים
+                String[] values = value.Split('/'); /* Split and cast into numbers*/
                 int day = Int32.Parse(values[0]);
                 int month = Int32.Parse(values[1]);
                 int year = Int32.Parse(values[2]);
 
-                DateTime temp = DateTime.Now; // תאריך עזר, לבדיקת מקרי קצה
+                DateTime temp = DateTime.Now; /* Auxiliary date check (year)*/
                 this.dob = new DateTime(year, month, day);
-                this.Age = temp.Year - this.dob.Year; // הגיל הוא, השנה של עכשיו פחות השנה שהוקלדה 
+                this.Age = temp.Year - this.dob.Year; 
             }
         }
 
-        public String City // עיר מגורים
+        public String City 
         {
             get { return this.city; }
             set { this.city = value; }
         }
 
-        public String Status // סטאטוס
+        public String Status 
         {
             get { return this.status; }
             set { this.status = value; }
         }
 
-        public String Info // מידע כללי
+        public String Info 
         {
             get { return this.info; }
             set { this.info = value; }
@@ -119,9 +119,9 @@ namespace SocialNetwork
             set { this.text = value; }
         }
 
-        public override string ToString() // הדפסת פרטים
+        public override string ToString() 
         {
-            return base.ToString() + // הדפסה של המתודה של האב
+            return base.ToString() + 
                     "Marital Status: " + MaritalStatus + "\r\n" +
                     "Age: " + Age + "\r\n" +
                     "Date Of Birth: " + Dob + "\r\n" +
@@ -131,7 +131,7 @@ namespace SocialNetwork
         }
 
         public String changeDetails(String fname, String lname, String password, String maritalStatus, String dob,
-            String city, String info, String status)  // שינוי פרטים
+            String city, String info, String status)  
         {
             base.changeDetails(fname, lname, password);
             MaritalStatus = maritalStatus;
@@ -153,32 +153,32 @@ namespace SocialNetwork
 
         public String checkDob(String str)
         {
-            if (Regex.IsMatch(str, @"^(\d{2})/(\d{2})/(\d{4})$") == false) // לא מתאים לפורמט
+            if (Regex.IsMatch(str, @"^(\d{2})/(\d{2})/(\d{4})$") == false) //Regex to check DOB
             {
                 return ("Incorrect date format");
                 
             }
 
-            String[] values = str.Split('/'); // פיצול המחרוזת והמרתם למספרים
+            String[] values = str.Split('/'); 
             int day = Int32.Parse(values[0]);
             int month = Int32.Parse(values[1]);
             int year = Int32.Parse(values[2]);
 
-            DateTime temp = DateTime.Now; // תאריך עזר, לבדיקת מקרי קצה
+            DateTime temp = DateTime.Now; 
 
-            if (year > temp.Year || year < (temp.Year - 120)) // אם השנה היא מעל השנה הנוכחית או שהאדם מעל גיל 120
+            if (year > temp.Year || year < (temp.Year - 120)) /* If year is over the current one and age is over 120 */
             {
                 return ("Invalid, Valid year range is: " + (temp.Year - 120) + " - " + temp.Year);
                 
             }
 
-            if (month > 12 || month < 1) // חודש חוקי
+            if (month > 12 || month < 1) /* Legal month */
             {
                 return ("Invalid, Month range is between 01-12");
                
             }
 
-            if (day < 1 || day > DateTime.DaysInMonth(year, month)) // יום חוקי לאותה שנה וחודש
+            if (day < 1 || day > DateTime.DaysInMonth(year, month)) /* Legal day and month */
             {
                 return ("Invalid, Valid day range in " + month + "\\" + year + "is: 1 - " + DateTime.DaysInMonth(year, month));
                
@@ -197,24 +197,6 @@ namespace SocialNetwork
         {
             String check = StringChecks.isVarChar(str);
             return check;
-        }
-
-        public String checkText(Color textColor)
-        {
-            if(textColor == this.bg)
-            {
-                return "Background and Text Colors must differ";
-            }
-            return null;
-        }
-
-        public String checkBG(Color bgColor)
-        {
-            if (bgColor == this.text)
-            {
-                return "Background and Text Colors must differ";
-            }
-            return null;
         }
 
         public String checkTicket(String str)
@@ -251,7 +233,7 @@ namespace SocialNetwork
 
         public String getUserDetails(String username)
         {
-            // האם המשתמש קיים והאם הוא משתמש רגיל
+            /* If user exists and if he's a regular user*/
             if (database.checkIfUserExists(username) == true && database.checkPermission(username) == "0")
             {
                 User user = database.getUser(username);
@@ -260,7 +242,7 @@ namespace SocialNetwork
             return "No such user";
         }
 
-        public String removeOwnAccount() // מתודת מחיקת חשבון אישי
+        public String removeOwnAccount() 
         {
             database.deleteAccount(this.Username);
             return "Your account was deleted";
@@ -286,51 +268,7 @@ namespace SocialNetwork
             return "Success";
         }
 
-        //public void Playlist() // פלייליסט 
-        //{
-        //    Playlist play = new Playlist();
-        //    play.Playasong();
-        //}
-
-        //public void maritalStatusUpdate() // תפריט עדכון מצב משפחתי
-        //{
-        //    String choice;
-
-        //    Console.Clear(); //ניקוי מסך
-
-        //    Console.WriteLine("What is your current status?");
-        //    Console.Write(
-        //                  "1) Single\n" +
-        //                  "2) Married\n" +
-        //                  "Choice: ");
-        //    choice = Console.ReadLine();
-
-        //    switch (choice)
-        //    {
-        //        case "1":
-        //            this.maritalStatus = "Single";
-        //            return;
-        //            break;
-
-        //        case "2":
-        //            Console.Write("How many children?\nChildren: ");
-        //            String numChildren = Console.ReadLine();
-        //            if (numChildren.All(Char.IsDigit) == false || Int32.Parse(numChildren) < 0) // האם יש ספרות, או שהקלט קטן מאפס
-        //            {
-        //                Console.WriteLine("Input must be equal or above '0' and must contain only digits");
-        //                this.maritalStatus = null;
-        //                return;
-        //            }
-        //            //תנאי מקוצר, מה להציג אם יש או אין ילדים
-        //            this.maritalStatus = (Int32.Parse(numChildren) > 0) ? "Married with " + numChildren + " children" : "Married";
-        //            break;
-
-        //        default: Console.WriteLine("Wrong input...\n");
-        //            break;
-        //    }
-        //}
-
-        public String sendTicket(String message) // שליחת פנייה
+        public String sendTicket(String message) 
         {
 
             String check = StringChecks.isVarChar(message);
@@ -347,29 +285,11 @@ namespace SocialNetwork
             }
         }
 
-        public void changeColors(Color text, Color bg) // שינוי צבעים
+        public void changeColors(Color text, Color bg) 
         {
             this.text = text;
             this.bg = bg;
             database.changeColors(this.Username, bg.ToArgb(), text.ToArgb());
         }
-
-        public Color[] yourColors() // קביעת צבעים בכל התחברות
-        {
-            Color[] colors = new Color[] { this.text, this.bg };
-            return colors;
-        }
-
-        //public override bool detailsCheckNull() // בדיקת תקינות
-        //{
-        //    if (this.Fname == null || this.Lname == null || this.Password == null || this.Username == null ||
-        //        this.MaritalStatus == null || this.Age == 0 || this.Dob.ToString() == "01/01/0001" || this.City == null)
-        //    {
-        //        return true;
-        //    }
-
-        //    else
-        //        return false;
-        //}
     }
 }

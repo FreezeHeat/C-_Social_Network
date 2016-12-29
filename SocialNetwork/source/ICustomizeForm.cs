@@ -9,7 +9,5 @@ namespace SocialNetwork
 {
     interface ICustomizeForm
     {
-        void changeColors(Color text, Color bg); // בחירת הצבעים
-        Color[] yourColors(); // קביעת הצבעים בכל התחברות
-    }
+        void changeColors(Color text, Color bg);     }
 }

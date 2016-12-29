@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork
 {
-    sealed class Memento // משמש לאחסון מצב אחרון של כל התכונות
+    sealed class Memento 
     {
-        private List<Account> accounts; // משתמשים
-        private List<Ticket> ticketBox; // תיבת פניות
-        private List<Message> inboxes; // תיבות מיילים
-        private List<Post> postList; // פוסטים
-        private DateTime backupTime; // זמן גיבוי
+        private List<Account> accounts; 
+        private List<Ticket> ticketBox; 
+        private List<Message> inboxes; 
+        private List<Post> postList; 
+        private DateTime backupTime; 
 
 
         public Memento(List<Account> accounts, List<Ticket> ticketBox, List<Message> inboxes, List<Post> postList)

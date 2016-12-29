@@ -7,18 +7,15 @@ using System.Text;
 
 namespace SocialNetwork
 {
-    public abstract class Account // חשבון
+    public abstract class Account 
     {
         private Database database = Database.getDatabase();
-        private String fname; // שם פרטי
-        private String lname; // שם משפחה
-        private String username;// שם משתמש 
-        private String password; // סיסמא
-        private int permission; // מידת הרשאה
-        private bool disabled = false; // אם מושבת או לא
-        private List<Message> inbox = new List<Message>();  // תיבת הודעות
-
-        //בנאים
+        private String fname; 
+        private String lname; 
+        private String username;
+        private String password; 
+        private int permission;
+        private bool disabled = false;
 
         public Account(String username, String fname, String lname, String password, int permission)
         {
@@ -38,10 +35,7 @@ namespace SocialNetwork
             Password = password;
             Permission = permission;
             Disabled = disabled;
-        }
-
-
-        // מתודות כלליות
+        }       
 
         public String Fname
         {
@@ -79,11 +73,11 @@ namespace SocialNetwork
             set { this.disabled = value; }
         }
 
-        public List<Message> Inbox
-        {
-            get { return inbox; }
-            set { this.inbox = value; }
-        }
+        
+        
+        
+        
+        
 
         public override string ToString()
         {
@@ -93,17 +87,17 @@ namespace SocialNetwork
                     "Permission: " + Permission + "\n";
         }
 
-        // שינוי פרטים
+        
 
-        public virtual String changeDetails(String fname, String lname, String password ) // למי שלא הבין וירטואל זה בשביל שיהיה ניתן להוריש ולדרוס את המתודה במחלקות שירשו
+        public virtual String changeDetails(String fname, String lname, String password ) 
         {
-            // שינוי מקומי
+            
             Fname = StringChecks.doubleApostrophy(fname);
             Lname = StringChecks.doubleApostrophy(lname);
             Password = StringChecks.doubleApostrophy(password);
             List<String> list = new List<String>() { Username, fname, lname, password };
 
-            // שינוי במסד הנתונים
+            
             
             database.changeDetails(list);
 
@@ -166,70 +160,5 @@ namespace SocialNetwork
             database.DeleteMessage(index);
             return "Message deleted";
         }
-
-        //public virtual login(String username, String password)
-        //{
-        //    int i = database.Login(username, password);
-        //    if(i >= 0) { return i; }
-        //    return -1;
-        //}
-
-
-        // מתודות ייחודיות
-
-        //public void Inbox(String choice)
-        //{
-            //Console.Clear(); //ניקוי מסך
-
-            //Console.Write("What do you wish to do?\n" +
-            //              "1) List Inbox\n" +
-            //              "2) Send message\n" +
-            //              "3) Delete message\n" +
-            //              "4) Backup your inbox\n" +
-            //              "5) Restore your inbox\n" +
-            //              "6) Exit to Menu\n" +
-            //              "\nChoice: ");
-
-            //choice = Console.ReadLine();
-
-        //    switch (choice)
-        //    {
-        //        case "1":
-        //            Console.Clear();
-        //            inbox.printList(); // מדפיס את כל ההודעות
-        //            break;
-        //        case "2":
-        //            Console.Clear();
-        //            inbox.sendMessage(this.Username); // שולח הודעה למשתמש מסויים
-        //            break;
-        //        case "3":
-        //            Console.Clear();
-        //            inbox.deleteMessage(); // מוחק הודעה מהתיבה
-        //            break;
-        //        case "4":
-        //            Console.Clear();
-        //            Console.WriteLine("Remember: You can only have one copy of a backup at a time");
-        //            this.inbox.createBackup();
-        //            break;
-        //        case "5":
-        //            Console.Clear();
-        //            this.inbox.restoreBackup();
-        //            break;
-        //        case "6":
-        //            return;
-        //            break;
-        //        default:
-        //            Console.WriteLine("Wrong Choice");
-        //            break;
-        //    }
-        //}
-
-        //public virtual bool detailsCheckNull() // בדיקת תקינות
-        //{
-        //    if (this.Fname == null || this.Lname == null || this.Password == null || this.Username == null)
-        //        return true;
-        //    else
-        //        return false;
-        //}
     }
 }

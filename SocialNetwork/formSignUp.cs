@@ -23,15 +23,48 @@ namespace SocialNetwork
         {
             InitializeComponent();
             this.parent = parent;
-            cbFormType.SelectedItem = Program.permissionLevels.User;
+            cbFormType.Items.Add(Program.permissionLevels.User);
+            cbFormType.Items.Add(Program.permissionLevels.TechSupport);
+            cbFormType.Items.Add(Program.permissionLevels.Admin);
+            cbFormType.SelectedIndex = 0;
+            cbFormType.Hide();
+            labFormType.Hide();
             this.userScheme();
         }
 
-        public formSignUp(formAccount formParent, Account account)
+        public formSignUp(formAccount formParent, Account account, int access)
         {
             InitializeComponent();
             this.formParent = formParent;
-            this.adminScheme();
+            cbFormType.Show();
+            labFormType.Show();
+            cbFormType.Items.Add(Program.permissionLevels.User);
+            cbFormType.Items.Add(Program.permissionLevels.TechSupport);
+            cbFormType.Items.Add(Program.permissionLevels.Admin);
+            Program.permissionLevels permission = (Program.permissionLevels)access;
+
+            switch (permission)
+            {
+                case Program.permissionLevels.User:
+                    this.userScheme();
+                    cbFormType.SelectedIndex = 0;
+                    this.cbFormType.Refresh();
+                    break;
+                case Program.permissionLevels.TechSupport:
+                    this.techScheme();
+                    cbFormType.SelectedIndex = 1;
+                    this.cbFormType.Refresh();
+                    break;
+                case Program.permissionLevels.Admin:
+                    this.adminScheme();
+                    cbFormType.SelectedIndex = 2;
+                    this.cbFormType.Refresh();
+                    break;
+                default:
+                    MessageBox.Show("Exception, wrong permission");
+                    return;
+            }
+            
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -41,40 +74,40 @@ namespace SocialNetwork
 
         private void btnSignUp_Click(object sender, EventArgs e)
         {
-            resetValidLables(); // להחביא ליבלים
+            resetValidLables(); 
 
-            bool valid = true; // לבדיקה
+            List<bool> valid = new List<bool>(); 
             Program.permissionLevels permission = (Program.permissionLevels)cbFormType.SelectedItem;
 
             switch (permission)
             {
                 case Program.permissionLevels.User:
-                    valid = checkIfUsernameExists();
-                    valid = checkUsername();
-                    valid = checkPassword();
-                    valid = checkPasswordsMatch();
-                    valid = checkFname();
-                    valid = checkLname();
-                    valid = checkDate();
-                    valid = checkCity();
-                    valid = checkMaritalStatus();
-                    valid = checkInfo();
+                    valid.Add(checkIfUsernameExists());
+                    valid.Add(checkUsername());
+                    valid.Add(checkPassword());
+                    valid.Add(checkPasswordsMatch());
+                    valid.Add(checkFname());
+                    valid.Add(checkLname());
+                    valid.Add(checkDate());
+                    valid.Add(checkCity());
+                    valid.Add(checkMaritalStatus());
+                    valid.Add(checkInfo());
                     break;
                 case Program.permissionLevels.TechSupport:
-                    valid = checkIfUsernameExists();
-                    valid = checkUsername();
-                    valid = checkPassword();
-                    valid = checkPasswordsMatch();
-                    valid = checkFname();
-                    valid = checkLname();
+                    valid.Add(checkIfUsernameExists());
+                    valid.Add(checkUsername());
+                    valid.Add(checkPassword());
+                    valid.Add(checkPasswordsMatch());
+                    valid.Add(checkFname());
+                    valid.Add(checkLname());
                     break;
                 case Program.permissionLevels.Admin:
-                    valid = checkIfUsernameExists();
-                    valid = checkUsername();
-                    valid = checkPassword();
-                    valid = checkPasswordsMatch();
-                    valid = checkFname();
-                    valid = checkLname();
+                    valid.Add(checkIfUsernameExists());
+                    valid.Add(checkUsername());
+                    valid.Add(checkPassword());
+                    valid.Add(checkPasswordsMatch());
+                    valid.Add(checkFname());
+                    valid.Add(checkLname());
                     break;
                 default:
                     MessageBox.Show("Exceptional Exception - permission unknown - exiting program");
@@ -82,22 +115,22 @@ namespace SocialNetwork
                     break;
             }
 
-            if (valid) // מידע תקין
+            if (valid.Contains(false) == false) 
             {
                 switch (permission)
                 {
                     case Program.permissionLevels.User:
                         User user = new User(txtUsername.Text, txtFname.Text, txtLname.Text, txtPassword.Text,
                             cbMaritalStatus.SelectedText, txtDob.Text, txtCity.Text, txtInfo.Text, "");
-                        this.database.addUser(user);//neora
+                        this.database.addUser(user);
                         break;
                     case Program.permissionLevels.TechSupport:
                         TechSupport tech = new TechSupport(txtUsername.Text, txtFname.Text, txtLname.Text, txtPassword.Text);
-                        this.database.addTech(tech);//neora
+                        this.database.addTech(tech);
                         break;
                     case Program.permissionLevels.Admin:
                         Admin admin = new Admin(txtUsername.Text, txtFname.Text, txtLname.Text, txtPassword.Text);
-                        this.database.addAdmin(admin);//neora
+                        this.database.addAdmin(admin);
                         break;
                     default:
                         MessageBox.Show("Exceptional Exception - permission unknown - exiting program");
@@ -107,7 +140,6 @@ namespace SocialNetwork
 
                 MessageBox.Show("Succesful!");
                 this.Close();
-                formParent.Show();//neora
 
 
             }
@@ -115,12 +147,8 @@ namespace SocialNetwork
 
         private void formSignUp_Load(object sender, EventArgs e)
         {
-            resetValidLables(); // לאתחל לייבלים
-            cbMaritalStatus.Items.AddRange(maritalStatuses); // אתחול גרידים
-
-            cbFormType.Items.Add(Program.permissionLevels.User);
-            cbFormType.Items.Add(Program.permissionLevels.TechSupport);
-            cbFormType.Items.Add(Program.permissionLevels.Admin);
+            resetValidLables(); 
+            cbMaritalStatus.Items.AddRange(maritalStatuses); 
         }
 
         private void resetValidLables()
@@ -132,10 +160,10 @@ namespace SocialNetwork
             labValidFname.Text = "";
             labValidLname.Text = "";
             labValidMaritalStatus.Text = "";
-            labValidUsername.Text = ""; // להחזיר למצב סרק
+            labValidUsername.Text = ""; 
             labValidInfo.Text = "";
 
-            labValidDob.ForeColor = Color.Red; // כולם בצבע אדום
+            labValidDob.ForeColor = Color.Red; 
             labValidConfirmPassword.ForeColor = Color.Red;
             labValidPassword.ForeColor = Color.Red;
             labValidCity.ForeColor = Color.Red;
@@ -146,7 +174,7 @@ namespace SocialNetwork
             labValidInfo.ForeColor = Color.Red;
         }
 
-        public void userScheme() // מראה את כל הפקדים של המשתמש
+        public void userScheme() 
         {
             txtUsername.Show();
             txtPassword.Show();
@@ -172,7 +200,7 @@ namespace SocialNetwork
             this.Refresh();
         }
 
-        public void techScheme() // מראה את כל הפקדים של נציג פניות
+        public void techScheme() 
         {
             txtUsername.Show();
             txtPassword.Show();
@@ -198,7 +226,7 @@ namespace SocialNetwork
             this.Refresh();
         }
 
-        public void adminScheme() // פקדים של מנהל
+        public void adminScheme() 
         {
             txtUsername.Show();
             txtPassword.Show();
@@ -228,7 +256,7 @@ namespace SocialNetwork
 
         private bool checkIfUsernameExists()
         {
-            if (database.Accounts.Exists(acc => acc.Username.Equals(txtUsername.Text))) // אותו משתמש
+            if (database.checkIfUserExists(txtUsername.Text) == true) 
             {
                 labValidUsername.Text = "Username already exists";
                 return false;
@@ -240,7 +268,7 @@ namespace SocialNetwork
         {
             if (txtUsername.Text != "")
             {
-                if (txtUsername.Text.Any(Char.IsWhiteSpace) == true) // מינוס אחד או רווחים
+                if (txtUsername.Text.Any(Char.IsWhiteSpace) == true) 
                 {
                     labValidUsername.Text = "must not contain white-spaces";
                     return false;
@@ -259,12 +287,12 @@ namespace SocialNetwork
         {
             if (txtFname.Text != "")
             {
-                if (txtFname.Text.Any(Char.IsDigit) == true) // אם יש מספרים
+                if (txtFname.Text.Any(Char.IsDigit) == true) 
                 {
                     labValidFname.Text = "Can't enter digits inside a name";
                     return false;
                 }
-                else if (txtFname.Text.Any(Char.IsLetter) == false) // אם אין אותיות
+                else if (txtFname.Text.Any(Char.IsLetter) == false) 
                 {
                     labValidFname.Text = "You must enter letters";
                     return false;
@@ -283,12 +311,12 @@ namespace SocialNetwork
         {
             if (txtLname.Text != "")
             {
-                if (txtLname.Text.Any(Char.IsDigit) == true) // אם יש מספרים
+                if (txtLname.Text.Any(Char.IsDigit) == true) 
                 {
                     labValidLname.Text = "Can't enter digits inside a name";
                     return false;
                 }
-                else if (txtLname.Text.Any(Char.IsLetter) == false) // אם אין אותיות
+                else if (txtLname.Text.Any(Char.IsLetter) == false) 
                 {
                     labValidLname.Text = "You must enter letters";
                     return false;
@@ -305,33 +333,36 @@ namespace SocialNetwork
 
         private bool checkDate()
         {
-            // בדיקת תאריך
-            if (Regex.IsMatch(txtDob.Text, @"^(\d{2})/(\d{2})/(\d{4})$") == true) // מתאים לפורמט
+            
+            if (Regex.IsMatch(txtDob.Text, @"^(\d{2})/(\d{2})/(\d{4})$") == true) 
             {
-                String[] values = txtDob.Text.Split('/'); // פיצול המחרוזת והמרתם למספרים
+                String[] values = txtDob.Text.Split('/'); 
                 int day = Int32.Parse(values[0]);
                 int month = Int32.Parse(values[1]);
                 int year = Int32.Parse(values[2]);
 
                 bool validDate = true;
 
-                DateTime temp = DateTime.Now; // תאריך עזר, לבדיקת מקרי קצה
+                DateTime temp = DateTime.Now; 
 
-                if (year > temp.Year || year < (temp.Year - 120)) // אם השנה היא מעל השנה הנוכחית או שהאדם מעל גיל 120
+                if (year > temp.Year || year < (temp.Year - 120)) 
                 {
                     labValidDob.Text += "Invalid Year ";
                     validDate = false;
                 }
-                if (month > 12 || month < 1) // חודש חוקי
+
+                if (month > 12 || month < 1) 
                 {
                     labValidDob.Text += "Invalid Month ";
                     validDate = false;
                 }
-                if (validDate && (day < 1 || day > DateTime.DaysInMonth(year, month))) // יום חוקי לאותה שנה וחודש
+
+                if (validDate && (day < 1 || day > DateTime.DaysInMonth(year, month))) 
                 {
                     labValidDob.Text += "Invalid Day ";
                     validDate = false;
                 }
+
                 if (!validDate)
                 {
                     return false;
@@ -350,7 +381,7 @@ namespace SocialNetwork
         {
             if (txtPassword.Text != "")
             {
-                if (txtPassword.Text.Any(Char.IsWhiteSpace) == true) // מינוס אחד או רווחים
+                if (txtPassword.Text.Any(Char.IsWhiteSpace) == true) 
                 {
                     labValidPassword.Text = "must not contain white-spaces";
                     return false;
@@ -379,12 +410,12 @@ namespace SocialNetwork
         {
             if (txtCity.Text != "")
             {
-                if (txtCity.Text.Any(Char.IsDigit) == true) // אם יש מספרים
+                if (txtCity.Text.Any(Char.IsDigit) == true) 
                 {
                     labValidCity.Text = "Can't enter digits";
                     return false;
                 }
-                else if (txtLname.Text.Any(Char.IsLetter) == false) // אם אין אותיות
+                else if (txtLname.Text.Any(Char.IsLetter) == false) 
                 {
                     labValidCity.Text = "You must enter text";
                     return false;
@@ -403,7 +434,7 @@ namespace SocialNetwork
         {
             if (txtInfo.Text != "")
             {
-                if (txtInfo.Text.Any(Char.IsLetter) == false) // אם אין אותיות
+                if (txtInfo.Text.Any(Char.IsLetter) == false) 
                 {
                     labValidInfo.Text = "You must enter text";
                     return false;
@@ -415,7 +446,7 @@ namespace SocialNetwork
 
         private bool checkPasswordsMatch()
         {
-            if (txtPassword.Text != txtConfirmPassword.Text) // סיסמאות שונות
+            if (txtPassword.Text != txtConfirmPassword.Text) 
             {
                 labValidConfirmPassword.Text = "Passwords do not match";
                 return false;

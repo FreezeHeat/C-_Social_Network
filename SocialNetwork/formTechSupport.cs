@@ -11,14 +11,14 @@ using System.Windows.Forms;
 
 namespace SocialNetwork
 {
-    public partial class formTechSupport : formAccount//change omer 12.2
+    public partial class formTechSupport : formAccount
     {
         private Home parent;
         private Database database = Database.getDatabase();
         private List<Ticket> tickets;
         private TechSupport tech;
 
-        public formTechSupport(Account tech, Home parent) : base(tech, parent)//change
+        public formTechSupport(Account tech, Home parent) : base(tech, parent)
         {
             InitializeComponent();
             tickets = database.getAllTickets();
@@ -32,7 +32,10 @@ namespace SocialNetwork
 
         private void ticketBox(TechSupport tech)
         {
-            for (int i = 0; i < tickets.Count; i++)//מילוי הטבלה בערכים חוץ מהנציג הנוכחי
+            dgvTicketBox.Rows.Clear();
+            tickets = database.getAllTickets();
+
+            for (int i = 0; i < tickets.Count; i++) /* Fill the table with values instead of the current representative */
             {
 
                 string[] row = new string[] { tickets[i].Id.ToString(), tickets[i].Username, tickets[i].Details, tickets[i].Representative, tickets[i].Date };
@@ -42,7 +45,6 @@ namespace SocialNetwork
 
 
         }
-
 
         private void Tickets_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -56,7 +58,7 @@ namespace SocialNetwork
 
         private void btnManageUsers_Click_1(object sender, EventArgs e)
         {
-            formManageUsers manageUsers = new formManageUsers(tech, this);//change
+            formManageUsers manageUsers = new formManageUsers(tech, this);
             this.Hide();
             manageUsers.Show();
 
@@ -73,16 +75,16 @@ namespace SocialNetwork
         {
             this.Show();
         }
-        //omer 13.2
+        
         private void ticketComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            ticketBox(tech);
             String item = ticketComboBox.SelectedItem.ToString();
             switch (item)
             {
                 case "Open":
                     dgvTicketBox.Rows.Clear();
-                    for (int i = 0; i < tickets.Count; i++)//מילוי הטבלה בערכים חוץ מהנציג הנוכחי
+                    for (int i = 0; i < tickets.Count; i++)
                     {
                         if (tickets[i].Representative == "")
                         {
@@ -95,7 +97,7 @@ namespace SocialNetwork
                     break;
                 case "My Tickets":
                     dgvTicketBox.Rows.Clear();
-                    for (int i = 0; i < tickets.Count; i++)//מילוי הטבלה בערכים חוץ מהנציג הנוכחי
+                    for (int i = 0; i < tickets.Count; i++)
                     {
                         if (tickets[i].Representative == tech.Username)
                         {
@@ -108,7 +110,7 @@ namespace SocialNetwork
                     break;
                 case "All Tickets":
                     dgvTicketBox.Rows.Clear();
-                    for (int i = 0; i < tickets.Count; i++)//מילוי הטבלה בערכים חוץ מהנציג הנוכחי
+                    for (int i = 0; i < tickets.Count; i++)
                     {
 
                         String[] row = new String[] { tickets[i].Id.ToString(), tickets[i].Username, tickets[i].Details, tickets[i].Representative, tickets[i].Date };
@@ -121,7 +123,7 @@ namespace SocialNetwork
 
 
         }
-        //omer 13.2
+        
         private void btnHandleTicket_Click(object sender, EventArgs e)
         {
             DataGridViewCell cell = dgvTicketBox.CurrentRow.Cells["colrepresentative"];
@@ -136,7 +138,7 @@ namespace SocialNetwork
             }
             dgvTicketBox.Refresh();
         }
-        //omer 13.2
+        
         private void btnFinishTicket_Click(object sender, EventArgs e)
         {
 

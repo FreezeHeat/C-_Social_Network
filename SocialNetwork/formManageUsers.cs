@@ -11,13 +11,13 @@ using SocialNetwork.source;
 
 namespace SocialNetwork
 {
-    public partial class formManageUsers : Form///עמר 2\12 כל המחלקה שונתה  
+    public partial class formManageUsers : Form
     {
         private formTechSupport parent;
         private Database database = Database.getDatabase();
         private List<Account> userslist;
         private TechSupport tech;
-        private int ptr = -1;//מצביע  לשורה בטבלה
+        private int ptr = -1;
 
 
 
@@ -31,16 +31,11 @@ namespace SocialNetwork
             loadTable(tech);
             dgvUsers.CurrentCell = dgvUsers.Rows[0].Cells["colPassword"];
 
-
-
-
-
-
         }
 
         private void loadTable(TechSupport tech)
         {
-            for (int i = 0; i < userslist.Count; i++)//מילוי הטבלה בערכים חוץ מהנציג הנוכחי
+            for (int i = 0; i < userslist.Count; i++)
             {
                 if (userslist[i].Username != tech.Username)
                 {
@@ -68,10 +63,17 @@ namespace SocialNetwork
 
         }
 
-        private void btnDisableAccount_Click(object sender, EventArgs e)//נעילת חשבון
+        
+        private void btnDisableAccount_Click(object sender, EventArgs e)
         {
+            String temp = dgvUsers.Rows[ptr].Cells["colUserName"].FormattedValue.ToString();
+            int index = userslist.FindIndex(x => x.Username == temp);
 
-            if (ptr != -1)
+            if (userslist[index].Permission == 2)
+            {
+                MessageBox.Show("You can not disable the administrator account!");
+            }
+            else if (ptr != -1)
             {
                 int tempLocal = userslist.FindIndex(x => x.Username.Equals(dgvUsers.Rows[ptr].Cells["colUserName"].FormattedValue.ToString()));
 
@@ -87,16 +89,23 @@ namespace SocialNetwork
 
         }
 
-        private void dgvUsers_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)//הצבעה על שורה בטבלה
+        private void dgvUsers_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             ptr = e.RowIndex;
 
 
         }
-
-        private void btnReEnableAccount_Click(object sender, EventArgs e)//שחרור חשבון
+        
+        private void btnReEnableAccount_Click(object sender, EventArgs e)
         {
-            if (ptr != -1)
+            String temp = dgvUsers.Rows[ptr].Cells["colUserName"].FormattedValue.ToString();
+            int index = userslist.FindIndex(x => x.Username == temp);
+
+            if (userslist[index].Permission == 2)
+            {
+                MessageBox.Show("You can not reEnable the administrator account!");
+            }
+            else if (ptr != -1)
             {
                 int tempLocal = userslist.FindIndex(x => x.Username.Equals(dgvUsers.Rows[ptr].Cells["colUserName"].FormattedValue.ToString()));
                 if (userslist[tempLocal].Disabled == true)
@@ -108,12 +117,20 @@ namespace SocialNetwork
                 }
             }
         }
-
-        private void btnResetPassword_Click(object sender, EventArgs e)//ניתנת אפשרות לערוך את הסיסמא
+        
+        private void btnResetPassword_Click(object sender, EventArgs e)
         {
+
             try
             {
-                if (ptr != -1)////בדיקת קצה האם אנחנו באזור תקין בטבלה
+                String temp = dgvUsers.Rows[ptr].Cells["colUserName"].FormattedValue.ToString();
+                int index = userslist.FindIndex(x => x.Username == temp);
+
+                if (userslist[index].Permission == 2)
+                {
+                    MessageBox.Show("You can reset the administrator password!");
+                }
+                else if (ptr != -1)
                 {
                     String tempLocal = dgvUsers.Rows[ptr].Cells["colUserName"].FormattedValue.ToString();
                     tech.resetPassword(tempLocal);

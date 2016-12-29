@@ -37,7 +37,7 @@ namespace SocialNetwork.source
             return null;
         }
 
-        public static String isVarChar(String varchar) // לשימוש של מחרוזות שמכילות מספרים, רווחים ואותיות
+        public static String isVarChar(String varchar) 
         {
             if(isEmpty(varchar) == true)
             {
@@ -52,7 +52,7 @@ namespace SocialNetwork.source
             return null;
         }
 
-        public static String anyWhiteSpace(String str) // לשימוש עם משתמשים וסיסמאות
+        public static String anyWhiteSpace(String str) 
         {
             if (isEmpty(str) == true)
             {

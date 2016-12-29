@@ -39,22 +39,14 @@
             this.btnAddTech = new System.Windows.Forms.Button();
             this.btnAddUser = new System.Windows.Forms.Button();
             this.labManage = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
+            this.button1 = new System.Windows.Forms.Button();
             this.panManage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvManage)).BeginInit();
             this.SuspendLayout();
             // 
-            // txtSend
-            // 
-            this.txtSend.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.txtSend.Size = new System.Drawing.Size(432, 90);
-            // 
-            // txtRecipient
-            // 
-            this.txtRecipient.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            // 
             // panManage
             // 
+            this.panManage.Controls.Add(this.button1);
             this.panManage.Controls.Add(this.dgvManage);
             this.panManage.Controls.Add(this.btnRemoveAccount);
             this.panManage.Controls.Add(this.btnDisableAccount);
@@ -78,7 +70,7 @@
             this.LastName,
             this.UserName});
             this.dgvManage.Location = new System.Drawing.Point(3, 38);
-            this.dgvManage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvManage.Margin = new System.Windows.Forms.Padding(4);
             this.dgvManage.Name = "dgvManage";
             this.dgvManage.Size = new System.Drawing.Size(368, 292);
             this.dgvManage.TabIndex = 6;
@@ -104,10 +96,10 @@
             // 
             // btnRemoveAccount
             // 
-            this.btnRemoveAccount.Location = new System.Drawing.Point(15, 389);
+            this.btnRemoveAccount.Location = new System.Drawing.Point(0, 388);
             this.btnRemoveAccount.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnRemoveAccount.Name = "btnRemoveAccount";
-            this.btnRemoveAccount.Size = new System.Drawing.Size(155, 41);
+            this.btnRemoveAccount.Size = new System.Drawing.Size(123, 41);
             this.btnRemoveAccount.TabIndex = 5;
             this.btnRemoveAccount.Text = "Remove Account";
             this.btnRemoveAccount.UseVisualStyleBackColor = true;
@@ -115,10 +107,10 @@
             // 
             // btnDisableAccount
             // 
-            this.btnDisableAccount.Location = new System.Drawing.Point(188, 389);
+            this.btnDisableAccount.Location = new System.Drawing.Point(247, 390);
             this.btnDisableAccount.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnDisableAccount.Name = "btnDisableAccount";
-            this.btnDisableAccount.Size = new System.Drawing.Size(171, 41);
+            this.btnDisableAccount.Size = new System.Drawing.Size(125, 41);
             this.btnDisableAccount.TabIndex = 4;
             this.btnDisableAccount.Text = "Disable Account";
             this.btnDisableAccount.UseVisualStyleBackColor = true;
@@ -167,6 +159,16 @@
             this.labManage.TabIndex = 0;
             this.labManage.Text = "Manage";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(127, 388);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(114, 44);
+            this.button1.TabIndex = 7;
+            this.button1.Text = "Renable Account";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // formAdmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -177,10 +179,6 @@
             this.Name = "formAdmin";
             this.Text = "Admin Menu";
             this.Load += new System.EventHandler(this.formAdmin_Load);
-            this.Controls.SetChildIndex(this.panel1, 0);
-            this.Controls.SetChildIndex(this.panManage, 0);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.panManage.ResumeLayout(false);
             this.panManage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvManage)).EndInit();
@@ -201,5 +199,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn FirstName;
         private System.Windows.Forms.DataGridViewTextBoxColumn LastName;
         private System.Windows.Forms.DataGridViewTextBoxColumn UserName;
+        private System.Windows.Forms.Button button1;
     }
 }
